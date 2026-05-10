@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a5c2a">
+    <meta name="description" content="سیستم ثبت نتایج وزارت معارف - افغانستان">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>سیستم ثبت نتایج - وزارت معارف</title>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogItix24HbinLHqiDaq9iz2Kog2LHYp9mF2K8gLSDYudiq2KfYs9iqINmF2L7Yp9ix2KoiLAogICJzaG9ydF9uYW1lIjogItix24HbinLHqiDaq9iz2Kog2LHYp9mF2K8iLAogICJzdGFydF91cmwiOiAiLi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJ0aGVtZV9jb2xvciI6ICIjMWE1YzJhIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQtcHJpbWFyeSIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0Nzdm4geG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTAwIDEwMCclM0UlM0NjaXJjbGUgY3g9JzUwJyBjeT0nNTAnIHI9JzQ4JyBmaWxsPSclMjMxYTVjMmEnLyUzRSUzQ3RleHQgeD0nNTAnIHk9JzY1JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmaWxsPSd3aGl0ZScgZm9udC1zaXplPSc0MCcgZm9udC1mYW1pbHk9J0FyaWFsJz7Zhdin2LkmcjwvdGV4dCUzRSUzQy9zdmclM0UiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXSwKICAibGFuZyI6ICJmYSIsCiAgImRpciI6ICJydGwiCn0=">
+    <style>
+        :root {
+            --primary: #1a5c2a;
+            --primary-light: #2d8a3e;
+            --primary-dark: #0f3a1a;
+            --accent: #c8a84e;
+            --accent-light: #e0c878;
+            --bg: #f5f3ee;
+            --surface: #ffffff;
+            --surface-alt: #faf9f6;
+            --text: #1a1a1a;
+            --text-secondary: #555;
+            --border: #e0dcd4;
+            --danger: #c0392b;
+            --warning: #e67e22;
+            --success: #27ae60;
+            --info: #2980b9;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, .08);
+            --shadow: 0 4px 16px rgba(0, 0, 0, .1);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, .14);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 18px;
+            --transition: 0.2s ease;
+            --font: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            font-size: 15px;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            direction: rtl;
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: #fff;
+            padding: 0 1.2rem;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .app-header .logo {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+        .app-header .logo .icon {
+            width: 38px;
+            height: 38px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            font-weight: 900;
+        }
+        .header-actions {
+            display: flex;
+            gap: .6rem;
+            align-items: center;
+        }
+        .btn {
+            padding: .5rem 1rem;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: .9rem;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary-dark);
+        }
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-1px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, .6);
+            color: #fff;
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, .12);
+        }
+        .btn-sm {
+            padding: .35rem .7rem;
+            font-size: .8rem;
+            border-radius: 6px;
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+        .btn-info {
+            background: var(--info);
+            color: #fff;
+        }
+        .btn:active {
+            transform: scale(.96);
+        }
+        /* Layout */
+        .app-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 250px;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            padding: 1rem 0;
+            overflow-y: auto;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+            z-index: 50;
+            transition: transform .3s ease;
+        }
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            padding: .7rem 1.2rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            border-radius: 0;
+            transition: var(--transition);
+            font-size: .9rem;
+            border-right: 3px solid transparent;
+        }
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
+            background: #e8f5e9;
+            color: var(--primary);
+            border-right-color: var(--primary);
+            font-weight: 700;
+        }
+        .sidebar nav a .nav-icon {
+            font-size: 1.2rem;
+            width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .panel {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            display: none;
+        }
+        .panel.active {
+            display: block;
+            animation: fadeIn .3s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            padding-bottom: .6rem;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+        /* Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: .8rem;
+        }
+        .stat-card {
+            background: var(--surface-alt);
+            border-radius: var(--radius);
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .stat-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+        .stat-card .stat-label {
+            font-size: .85rem;
+            color: var(--text-secondary);
+            margin-top: .2rem;
+        }
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .85rem;
+            min-width: 600px;
+        }
+        table th,
+        table td {
+            padding: .55rem .7rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        table th {
+            background: var(--primary-dark);
+            color: #fff;
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        table tbody tr:hover {
+            background: #f0f7f0;
+        }
+        table tbody tr:nth-child(even) {
+            background: #fafaf8;
+        }
+        table tbody tr:nth-child(even):hover {
+            background: #eef5ee;
+        }
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: .8rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: .3rem;
+        }
+        .form-group label {
+            font-weight: 600;
+            font-size: .85rem;
+            color: var(--text-secondary);
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: .55rem .7rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font);
+            font-size: .9rem;
+            transition: var(--transition);
+            background: var(--surface-alt);
+            color: var(--text);
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(26, 92, 42, .08);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: .25rem .6rem;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn .2s ease;
+        }
+        .modal {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            width: 95%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: .5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-close:hover {
+            background: #e0e0e0;
+        }
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: .7rem 1.4rem;
+            border-radius: 30px;
+            font-weight: 600;
+            z-index: 300;
+            animation: slideUp .3s ease;
+            font-size: .9rem;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        /* Mobile */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: .3rem;
+        }
+        @media(max-width:768px) {
+            .sidebar {
+                position: fixed;
+                right: -280px;
+                top: 60px;
+                bottom: 0;
+                width: 260px;
+                z-index: 150;
+                transition: right .3s ease;
+                border-radius: 0;
+            }
+            .sidebar.open {
+                right: 0;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .main-content {
+                padding: .7rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .app-header .logo {
+                font-size: .9rem;
+            }
+            .btn {
+                padding: .4rem .7rem;
+                font-size: .8rem;
+            }
+        }
+        @media print {
+            .sidebar,
+            .app-header,
+            .btn,
+            .modal-overlay,
+            .toast,
+            .menu-toggle {
+                display: none !important;
+            }
+            .main-content {
+                padding: 0;
+            }
+            .panel {
+                box-shadow: none;
+                border: none;
+                display: block !important;
+            }
+            table th {
+                background: #ddd !important;
+                color: #000 !important;
+            }
+        }
+        .offline-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--warning);
+            color: #fff;
+            text-align: center;
+            padding: .3rem;
+            font-size: .8rem;
+            font-weight: 700;
+            z-index: 400;
+            display: none;
+        }
+        .offline-indicator.show {
+            display: block;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: .5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-indicator" id="offlineIndicator">⚠️ شما در حالت آفلاین هستید - اطلاعات ذخیره شده محلی نمایش داده میشود</div>
+    <header class="app-header">
+        <button class="menu-toggle" id="menuToggle" aria-label="منو">☰</button>
+        <div class="logo">
+            <span class="icon">مع</span>
+            <span>سیستم ثبت نتایج - وزارت معارف</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-outline btn-sm" onclick="saveToDisk()" title="ذخیره دیتابیس">💾 ذخیره</button>
+            <button class="btn btn-outline btn-sm" onclick="exportReport()" title="چاپ گزارش">🖨️ چاپ</button>
+            <span style="font-size:.8rem;opacity:.8;" id="dbStatus">⚡ آماده</span>
+        </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <nav>
+                <a href="#dashboard" class="active" data-panel="dashboard"><span class="nav-icon">📊</span> داشبورد</a>
+                <a href="#students" data-panel="students"><span class="nav-icon">👨‍🎓</span> شاگردان</a>
+                <a href="#enrollment" data-panel="enrollment"><span class="nav-icon">📝</span> ثبت نام</a>
+                <a href="#grades-mid" data-panel="grades-mid"><span class="nav-icon">📋</span> نمرات ۴.۵ ماهه</a>
+                <a href="#grades-annual" data-panel="grades-annual"><span class="nav-icon">📄</span> نمرات سالانه</a>
+                <a href="#attendance" data-panel="attendance"><span class="nav-icon">📅</span> حاضری</a>
+                <a href="#results" data-panel="results"><span class="nav-icon">🏆</span> نتایج نهایی</a>
+                <a href="#textbooks" data-panel="textbooks"><span class="nav-icon">📚</span> توزیع کتب</a>
+                <a href="#report-cards" data-panel="report-cards"><span class="nav-icon">📜</span> اطلاع نامه</a>
+                <a href="#reports" data-panel="reports"><span class="nav-icon">📈</span> گزارشات</a>
+            </nav>
+        </aside>
+        <main class="main-content" id="mainContent">
+            <!-- Dashboard -->
+            <div class="panel active" id="panel-dashboard">
+                <div class="panel-title">📊 داشبورد - احصائیه عمومی</div>
+                <div class="stats-grid" id="dashboardStats"></div>
+                <div style="margin-top:1rem;">
+                    <h4 style="margin-bottom:.5rem;">خلاصه نتایج بر اساس صنف</h4>
+                    <div class="table-wrapper"><table id="dashboardTable"><thead><tr><th>صنف</th><th>تعداد شاگردان</th><th>کامیاب</th><th>مشروط</th><th>ناکام</th><th>محروم</th></tr></thead><tbody></tbody></table></div>
+                </div>
+            </div>
+            <!-- Students -->
+            <div class="panel" id="panel-students">
+                <div class="panel-title">👨‍🎓 مدیریت شاگردان <button class="btn btn-primary btn-sm" onclick="openStudentModal()" style="margin-right:auto;">+ شاگرد جدید</button></div>
+                <div class="table-wrapper"><table id="studentsTable"><thead><tr><th>نمبر اساس</th><th>شهرت</th><th>اسم</th><th>نام پدر</th><th>جنسیت</th><th>عملیات</th></tr></thead><tbody></tbody></table></div>
+            </div>
+            <!-- Enrollment -->
+            <div class="panel" id="panel-enrollment">
+                <div class="panel-title">📝 ثبت نام شاگردان در صنف <button class="btn btn-primary btn-sm" onclick="openEnrollmentModal()" style="margin-right:auto;">+ ثبت نام جدید</button></div>
+                <div class="table-wrapper"><table id="enrollmentTable"><thead><tr><th>شاگرد</th><th>صنف</th><th>شماره در صنف</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody></tbody></table></div>
+            </div>
+            <!-- Grades Mid -->
+            <div class="panel" id="panel-grades-mid">
+                <div class="panel-title">📋 نمرات چهار و نیم ماهه <button class="btn btn-primary btn-sm" onclick="openGradeModal('چهارونیم_ماهه')" style="margin-right:auto;">+ ثبت نمره</button></div>
+                <div class="table-wrapper"><table id="gradesMidTable"><thead><tr><th>شاگرد</th><th>مضمون</th><th>تحریری</th><th>تقریری</th><th>فعالیت</th><th>کارخانگی</th><th>مجموعه</th></tr></thead><tbody></tbody></table></div>
+            </div>
+            <!-- Grades Annual -->
+            <div class="panel" id="panel-grades-annual">
+                <div class="panel-title">📄 نمرات سالانه <button class="btn btn-primary btn-sm" onclick="openGradeModal('سالانه')" style="margin-right:auto;">+ ثبت نمره</button></div>
+                <div class="table-wrapper"><table id="gradesAnnualTable"><thead><tr><th>شاگرد</th><th>مضمون</th><th>تحریری</th><th>تقریری</th><th>فعالیت</th><th>کارخانگی</th><th>مجموعه</th></tr></thead><tbody></tbody></table></div>
+            </div>
+            <!-- Attendance -->
+            <div class="panel" id="panel-attendance">
+                <div class="panel-title">📅 ضوابط حاضری <button class="btn btn-primary btn-sm" onclick="openAttendanceModal()" style="margin-right:auto;">+ ثبت حاضری</button></div>
+                <div class="table-wrapper"><table id="attendanceTable"><thead><tr><th>شاگرد</th><th>نوع</th><th>حاضر</th><th>غیرحاضر</th><th>مریض</th><th>رخصت</th><th>مجموعه غیاب</th><th>وضعیت</th></tr></thead><tbody></tbody></table></div>
+            </div>
+            <!-- Results -->
+            <div class="panel" id="panel-results">
+                <div class="panel-title">🏆 نتایج نهایی <button class="btn btn-primary btn-sm" onclick="openResultModal()" style="margin-right:auto;">+ ثبت نتیجه</button></div>
+                <div class="table-wrapper"><table id="resultsTable"><thead><tr><th>شاگرد</th><th>صنف</th><th>اوسط کل</th><th>نتیجه</th><th>درجه</th><th>رتبه</th><th>ارتقا به صنف</th></tr></thead><tbody></tbody></table></div>
+            </div>
+            <!-- Textbooks -->
+            <div class="panel" id="panel-textbooks">
+                <div class="panel-title">📚 توزیع کتب <button class="btn btn-primary btn-sm" onclick="openTextbookModal()" style="margin-right:auto;">+ ثبت توزیع</button></div>
+                <div class="table-wrapper"><table id="textbooksTable"><thead><tr><th>شاگرد</th><th>کتاب</th><th>تعداد</th><th>تاریخ</th><th>امضاء</th></tr></thead><tbody></tbody></table></div>
+            </div>
+            <!-- Report Cards -->
+            <div class="panel" id="panel-report-cards">
+                <div class="panel-title">📜 اطلاع نامه / کارنامه <button class="btn btn-primary btn-sm" onclick="generateReportCard()" style="margin-right:auto;">🖨️ چاپ کارنامه</button></div>
+                <div class="table-wrapper"><table id="reportCardsTable"><thead><tr><th>شاگرد</th><th>نوع امتحان</th><th>تاریخ صدور</th><th>چاپ شده</th><th>تحویل شده</th></tr></thead><tbody></tbody></table></div>
+            </div>
+            <!-- Reports -->
+            <div class="panel" id="panel-reports">
+                <div class="panel-title">📈 گزارشات و دیدگاه‌ها</div>
+                <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+                    <button class="btn btn-info btn-sm" onclick="loadView('v_کارنامه_شاگرد')">کارنامه شاگردان</button>
+                    <button class="btn btn-info btn-sm" onclick="loadView('v_خلص_صنف')">خلص صنف</button>
+                    <button class="btn btn-info btn-sm" onclick="loadView('v_خلص_حاضری')">خلص حاضری</button>
+                    <button class="btn btn-info btn-sm" onclick="loadView('v_شاگردان_کامیاب')">شاگردان کامیاب</button>
+                    <button class="btn btn-info btn-sm" onclick="loadView('v_شاگردان_ناکام_محروم')">ناکام و محروم</button>
+                </div>
+                <div class="table-wrapper"><table id="reportsTable"><thead id="reportsTableHead"></thead><tbody id="reportsTableBody"></tbody></table></div>
+            </div>
+        </main>
+    </div>
+    <!-- Modal container -->
+    <div id="modalContainer"></div>
+    <div id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js">
+    </script>
+    <script>
+        // ==================== PWA & Database Engine ====================
+        let db = null;
+        let SQL = null;
+        const DB_NAME = 'school_db_1404';
+        const DB_VERSION = 1;
+
+        // IndexedDB for persistence
+        function openIDB() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open('SchoolPWA_DB', DB_VERSION);
+                req.onupgradeneeded = (e) => {
+                    const idb = e.target.result;
+                    if (!idb.objectStoreNames.contains('sqlite')) {
+                        idb.createObjectStore('sqlite', { keyPath: 'name' });
+                    }
+                };
+                req.onsuccess = (e) => resolve(e.target.result);
+                req.onerror = (e) => reject(e.target.error);
+            });
+        }
+        async function saveDBToIDB() {
+            if (!db) return;
+            try {
+                const idb = await openIDB();
+                const data = db.export();
+                const buffer = data.buffer;
+                const tx = idb.transaction('sqlite', 'readwrite');
+                const store = tx.objectStore('sqlite');
+                store.put({ name: DB_NAME, data: new Uint8Array(buffer), timestamp: Date.now() });
+                return new Promise((resolve, reject) => {
+                    tx.oncomplete = () => { updateDBStatus('💾 ذخیره شد'); resolve(); };
+                    tx.onerror = () => { reject(tx.error); };
+                });
+            } catch (e) {
+                console.warn('IDB save failed:', e);
+                updateDBStatus('⚠️ ذخیره نشد');
+            }
+        }
+        async function loadDBFromIDB() {
+            try {
+                const idb = await openIDB();
+                const tx = idb.transaction('sqlite', 'readonly');
+                const store = tx.objectStore('sqlite');
+                const req = store.get(DB_NAME);
+                return new Promise((resolve) => {
+                    req.onsuccess = () => {
+                        if (req.result && req.result.data) {
+                            resolve(new Uint8Array(req.result.data));
+                        } else {
+                            resolve(null);
+                        }
+                    };
+                    req.onerror = () => resolve(null);
+                });
+            } catch (e) {
+                return null;
+            }
+        }
+        async function saveToDisk() {
+            if (!db) return showToast('دیتابیس آماده نیست');
+            const data = db.export();
+            const blob = new Blob([data], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'school_database_backup.db';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            await saveDBToIDB();
+            showToast('✅ دیتابیس با موفقیت ذخیره شد');
+        }
+        function updateDBStatus(msg) {
+            const el = document.getElementById('dbStatus');
+            if (el) el.textContent = msg;
+            setTimeout(() => { if (el) el.textContent = '⚡ آماده'; }, 2000);
+        }
+
+        // ==================== SQL.js Init ====================
+        async function initDatabase() {
+            try {
+                SQL = await initSqlJs({ locateFile: f => `https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/${f}` });
+                const saved = await loadDBFromIDB();
+                if (saved) {
+                    db = new SQL.Database(saved);
+                    updateDBStatus('📂 بارگذاری شد');
+                } else {
+                    db = new SQL.Database();
+                    runSchema();
+                    updateDBStatus('🆕 دیتابیس نو');
+                }
+                // Auto-save periodically
+                setInterval(async () => { await saveDBToIDB(); }, 15000);
+                // Initial save
+                await saveDBToIDB();
+                refreshAllPanels();
+            } catch (e) {
+                console.error('DB init error:', e);
+                updateDBStatus('❌ خطا');
+                showToast('خطا در راه‌اندازی دیتابیس');
+            }
+        }
+        function runSchema() {
+            const schema = `
+            PRAGMA foreign_keys=ON;PRAGMA encoding='UTF-8';
+            CREATE TABLE IF NOT EXISTS وزارت(id INTEGER PRIMARY KEY AUTOINCREMENT,نام_وزارت TEXT NOT NULL,مخفف TEXT,آدرس TEXT,ایجاد_شد DATETIME DEFAULT CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO وزارت(id,نام_وزارت) VALUES(1,'وزارت معارف');
+            CREATE TABLE IF NOT EXISTS ریاست_معارف(id INTEGER PRIMARY KEY AUTOINCREMENT,وزارت_id INTEGER NOT NULL REFERENCES وزارت(id),نام TEXT NOT NULL,ولایت TEXT,ایجاد_شد DATETIME DEFAULT CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO ریاست_معارف(وزارت_id,نام,ولایت) VALUES(1,'ریاست معارف',NULL);
+            CREATE TABLE IF NOT EXISTS آمریت_معارف(id INTEGER PRIMARY KEY AUTOINCREMENT,ریاست_id INTEGER NOT NULL REFERENCES ریاست_معارف(id),نام TEXT NOT NULL,ولسوالی TEXT,ایجاد_شد DATETIME DEFAULT CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO آمریت_معارف(ریاست_id,نام,ولسوالی) VALUES(1,'آمریت معارف',NULL);
+            CREATE TABLE IF NOT EXISTS نهاد_تعلیمی(id INTEGER PRIMARY KEY AUTOINCREMENT,آمریت_id INTEGER NOT NULL REFERENCES آمریت_معارف(id),نام TEXT NOT NULL,نوع TEXT CHECK(نوع IN('لیسه','مکتب','مدرسه','دارالمعلمین')) DEFAULT 'لیسه',آدرس TEXT,کد_مکتب TEXT UNIQUE,ایجاد_شد DATETIME DEFAULT CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO نهاد_تعلیمی(آمریت_id,نام,نوع) VALUES(1,'لیسه سنایی گردن خدایداد','لیسه');
+            CREATE TABLE IF NOT EXISTS کارمند(id INTEGER PRIMARY KEY AUTOINCREMENT,نهاد_id INTEGER NOT NULL REFERENCES نهاد_تعلیمی(id),نام TEXT NOT NULL,نام_پدر TEXT,وظیفه TEXT NOT NULL,نمبر_تماس TEXT,فعال INTEGER DEFAULT 1,ایجاد_شد DATETIME DEFAULT CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO کارمند(نهاد_id,نام,وظیفه) VALUES(1,'','مدیر/ آمر نهاد تعلیمی'),(1,'','سرمعلم'),(1,'','معاون تدریسی'),(1,'','عضو علمی و انکشاف مسلکی'),(1,'','هئیت سه نفری نتایج 1'),(1,'','هئیت سه نفری نتایج 2'),(1,'','هئیت سه نفری نتایج 3');
+            CREATE TABLE IF NOT EXISTS سال_تعلیمی(id INTEGER PRIMARY KEY AUTOINCREMENT,سال_شمسی INTEGER NOT NULL,سال_قمری INTEGER,تاریخ_شروع DATE,تاریخ_ختم DATE,فعال INTEGER DEFAULT 1);
+            INSERT OR IGNORE INTO سال_تعلیمی(سال_شمسی,سال_قمری,فعال) VALUES(1404,1447,1);
+            CREATE TABLE IF NOT EXISTS صنف(id INTEGER PRIMARY KEY AUTOINCREMENT,نهاد_id INTEGER NOT NULL REFERENCES نهاد_تعلیمی(id),سال_تعلیمی_id INTEGER NOT NULL REFERENCES سال_تعلیمی(id),نگران_id INTEGER REFERENCES کارمند(id),شماره_صنف INTEGER NOT NULL CHECK(شماره_صنف BETWEEN 1 AND 12),بخش TEXT,نام_صنف TEXT NOT NULL,تعداد_مضامین INTEGER DEFAULT 11,ایام_محرومی INTEGER DEFAULT 58,UNIQUE(نهاد_id,سال_تعلیمی_id,شماره_صنف,بخش));
+            INSERT OR IGNORE INTO صنف(نهاد_id,سال_تعلیمی_id,شماره_صنف,بخش,نام_صنف,تعداد_مضامین,ایام_محرومی) VALUES(1,1,1,'1','اول 1',11,58),(1,1,1,'2','اول 2',11,58),(1,1,2,'1','دوم 1',11,58),(1,1,2,'2','دوم 2',11,58),(1,1,3,'1','سوم 1',11,58),(1,1,3,'2','سوم 2',11,58),(1,1,4,'1','چهارم 1',11,58),(1,1,4,'2','چهارم 2',11,58),(1,1,5,'1','پنجم 1',11,58),(1,1,5,'2','پنجم 2',11,58),(1,1,6,'1','ششم 1',11,58),(1,1,6,'2','ششم 2',11,58);
+            CREATE TABLE IF NOT EXISTS مضمون(id INTEGER PRIMARY KEY AUTOINCREMENT,نام TEXT NOT NULL UNIQUE,کد TEXT UNIQUE,ترتیب INTEGER);
+            INSERT OR IGNORE INTO مضمون(نام,کد,ترتیب) VALUES('قرآن کریم','QURAN',1),('دنیات','DIN',2),('دری','DARI',3),('پشتو','PASHTO',4),('لسان سوم','LANG3',5),('انګلیسی','ENG',6),('ریاضی','MATH',7),('ساینس','SCI',8),('اجتماعیات','SOC',9),('خط/ رسم','ART',10),('مهارت زندگی','LIFE',11),('تربیت بدنی','PE',12),('تهذیب','ETHICS',13);
+            CREATE TABLE IF NOT EXISTS مضمون_صنف(id INTEGER PRIMARY KEY AUTOINCREMENT,صنف_id INTEGER NOT NULL REFERENCES صنف(id),مضمون_id INTEGER NOT NULL REFERENCES مضمون(id),وزن_نمره INTEGER DEFAULT 100,فعال INTEGER DEFAULT 1,UNIQUE(صنف_id,مضمون_id));
+            INSERT OR IGNORE INTO مضمون_صنف(صنف_id,مضمون_id) VALUES(10,1),(10,2),(10,3),(10,4),(10,6),(10,7),(10,8),(10,9),(10,10),(10,11),(10,12);
+            CREATE TABLE IF NOT EXISTS شاگرد(id INTEGER PRIMARY KEY AUTOINCREMENT,نمبر_اساس TEXT UNIQUE,نمبر_تذکره TEXT,شهرت TEXT NOT NULL,اسم TEXT NOT NULL,نام_پدر TEXT,نام_پدرکلان TEXT,جنسیت TEXT CHECK(جنسیت IN('ذکور','اناث')) DEFAULT 'ذکور',تاریخ_تولد DATE,ولایت_اصلی TEXT,ایجاد_شد DATETIME DEFAULT CURRENT_TIMESTAMP);
+            CREATE TABLE IF NOT EXISTS ثبت_نام(id INTEGER PRIMARY KEY AUTOINCREMENT,شاگرد_id INTEGER NOT NULL REFERENCES شاگرد(id),صنف_id INTEGER NOT NULL REFERENCES صنف(id),شماره_در_صنف INTEGER,تاریخ_ثبت DATE,وضعیت TEXT DEFAULT 'فعال' CHECK(وضعیت IN('فعال','انتقال','محروم','ترک')),UNIQUE(شاگرد_id,صنف_id));
+            CREATE TABLE IF NOT EXISTS نمرات_چهارونیم_ماهه(id INTEGER PRIMARY KEY AUTOINCREMENT,ثبت_نام_id INTEGER NOT NULL REFERENCES ثبت_نام(id),مضمون_id INTEGER NOT NULL REFERENCES مضمون(id),تحریری REAL CHECK(تحریری BETWEEN 0 AND 60),تقریری_عملی REAL CHECK(تقریری_عملی BETWEEN 0 AND 20),فعالیت_صنفی REAL CHECK(فعالیت_صنفی BETWEEN 0 AND 10),کار_خانگی REAL CHECK(کار_خانگی BETWEEN 0 AND 10),مجموعه REAL GENERATED ALWAYS AS(COALESCE(تحریری,0)+COALESCE(تقریری_عملی,0)+COALESCE(فعالیت_صنفی,0)+COALESCE(کار_خانگی,0)) STORED,به_حروف TEXT,ممتحن TEXT,تاریخ_امتحان DATE,ملاحظات TEXT,UNIQUE(ثبت_نام_id,مضمون_id));
+            CREATE TABLE IF NOT EXISTS نمرات_سالانه(id INTEGER PRIMARY KEY AUTOINCREMENT,ثبت_نام_id INTEGER NOT NULL REFERENCES ثبت_نام(id),مضمون_id INTEGER NOT NULL REFERENCES مضمون(id),تحریری REAL CHECK(تحریری BETWEEN 0 AND 60),تقریری_عملی REAL CHECK(تقریری_عملی BETWEEN 0 AND 20),فعالیت_صنفی REAL CHECK(فعالیت_صنفی BETWEEN 0 AND 10),کار_خانگی REAL CHECK(کار_خانگی BETWEEN 0 AND 10),مجموعه REAL GENERATED ALWAYS AS(COALESCE(تحریری,0)+COALESCE(تقریری_عملی,0)+COALESCE(فعالیت_صنفی,0)+COALESCE(کار_خانگی,0)) STORED,به_حروف TEXT,ممتحن TEXT,تاریخ_امتحان DATE,ملاحظات TEXT,UNIQUE(ثبت_نام_id,مضمون_id));
+            CREATE TABLE IF NOT EXISTS ضوابط_حاضری(id INTEGER PRIMARY KEY AUTOINCREMENT,ثبت_نام_id INTEGER NOT NULL REFERENCES ثبت_نام(id),نوع_امتحان TEXT NOT NULL CHECK(نوع_امتحان IN('چهارونیم_ماهه','سالانه')),ایام_کل INTEGER,حاضر INTEGER DEFAULT 0,غیر_حاضر INTEGER DEFAULT 0,مریض INTEGER DEFAULT 0,رخصت INTEGER DEFAULT 0,مجموعه_غیاب INTEGER GENERATED ALWAYS AS(COALESCE(غیر_حاضر,0)+COALESCE(مریض,0)+COALESCE(رخصت,0)) STORED,محروم INTEGER DEFAULT 0,UNIQUE(ثبت_نام_id,نوع_امتحان));
+            CREATE TABLE IF NOT EXISTS نتیجه_نهایی(id INTEGER PRIMARY KEY AUTOINCREMENT,ثبت_نام_id INTEGER NOT NULL UNIQUE REFERENCES ثبت_نام(id),مجموعه_چهارونیم_ماهه REAL,اوسط_چهارونیم_ماهه REAL,مجموعه_سالانه REAL,اوسط_سالانه REAL,مجموعه_کل REAL,اوسط_کل REAL,نتیجه TEXT CHECK(نتیجه IN('کامیاب','مشروط','ناکام','محروم','معذرتی','غایب')),درجه TEXT,رتبه INTEGER,ارتقا_به_صنف INTEGER,تاریخ_ثبت DATETIME DEFAULT CURRENT_TIMESTAMP);
+            CREATE TABLE IF NOT EXISTS توزیع_کتب(id INTEGER PRIMARY KEY AUTOINCREMENT,ثبت_نام_id INTEGER NOT NULL REFERENCES ثبت_نام(id),مضمون_id INTEGER REFERENCES مضمون(id),نام_کتاب TEXT,تعداد_دریافت INTEGER DEFAULT 1,تاریخ_توزیع DATE,امضاء_شاگرد INTEGER DEFAULT 0,ملاحظات TEXT);
+            CREATE TABLE IF NOT EXISTS اطلاع_نامه(id INTEGER PRIMARY KEY AUTOINCREMENT,ثبت_نام_id INTEGER NOT NULL REFERENCES ثبت_نام(id),نوع_امتحان TEXT NOT NULL CHECK(نوع_امتحان IN('چهارونیم_ماهه','سالانه')),تاریخ_صدور DATE,چاپ_شده INTEGER DEFAULT 0,تحویل_شده INTEGER DEFAULT 0,ملاحظات TEXT);
+            CREATE TABLE IF NOT EXISTS فهرست_صنف(id INTEGER PRIMARY KEY AUTOINCREMENT,صنف_id INTEGER NOT NULL REFERENCES صنف(id),شماره INTEGER NOT NULL,شاگرد_id INTEGER NOT NULL REFERENCES شاگرد(id),تایید_مدیر INTEGER DEFAULT 0,UNIQUE(صنف_id,شماره));
+            CREATE TABLE IF NOT EXISTS خلص_احصائیه(id INTEGER PRIMARY KEY AUTOINCREMENT,صنف_id INTEGER NOT NULL REFERENCES صنف(id),نوع_امتحان TEXT NOT NULL CHECK(نوع_امتحان IN('چهارونیم_ماهه','سالانه')),تعداد_داخله INTEGER DEFAULT 0,شامل_امتحان INTEGER DEFAULT 0,کامیاب INTEGER DEFAULT 0,مشروط INTEGER DEFAULT 0,ناکام INTEGER DEFAULT 0,محروم INTEGER DEFAULT 0,معذرتی INTEGER DEFAULT 0,غایب INTEGER DEFAULT 0,ارتقا_صنف INTEGER DEFAULT 0,تکرار_صنف INTEGER DEFAULT 0,تاریخ_ثبت DATETIME DEFAULT CURRENT_TIMESTAMP,UNIQUE(صنف_id,نوع_امتحان));
+            INSERT OR IGNORE INTO خلص_احصائیه(صنف_id,نوع_امتحان) VALUES(1,'چهارونیم_ماهه'),(1,'سالانه'),(2,'چهارونیم_ماهه'),(2,'سالانه'),(3,'چهارونیم_ماهه'),(3,'سالانه'),(4,'چهارونیم_ماهه'),(4,'سالانه'),(5,'چهارونیم_ماهه'),(5,'سالانه'),(6,'چهارونیم_ماهه'),(6,'سالانه'),(7,'چهارونیم_ماهه'),(7,'سالانه'),(8,'چهارونیم_ماهه'),(8,'سالانه'),(9,'چهارونیم_ماهه'),(9,'سالانه'),(10,'چهارونیم_ماهه'),(10,'سالانه'),(11,'چهارونیم_ماهه'),(11,'سالانه'),(12,'چهارونیم_ماهه'),(12,'سالانه');
+            CREATE TABLE IF NOT EXISTS هیئت_نتایج(id INTEGER PRIMARY KEY AUTOINCREMENT,صنف_id INTEGER NOT NULL REFERENCES صنف(id),نوع_امتحان TEXT NOT NULL,عضو_1 TEXT,عضو_2 TEXT,عضو_3 TEXT,تاریخ DATE,UNIQUE(صنف_id,نوع_امتحان));
+            CREATE INDEX IF NOT EXISTS idx_ثبت_نام_شاگرد ON ثبت_نام(شاگرد_id);
+            CREATE INDEX IF NOT EXISTS idx_ثبت_نام_صنف ON ثبت_نام(صنف_id);
+            CREATE INDEX IF NOT EXISTS idx_نتیجه_ثبت ON نتیجه_نهایی(ثبت_نام_id);
+            CREATE INDEX IF NOT EXISTS idx_شاگرد_نمبر ON شاگرد(نمبر_اساس);
+            `;
+            db.run(schema);
+        }
+
+        // ==================== Helper Functions ====================
+        function dbRun(sql, params = []) {
+            try {
+                db.run(sql, params);
+                return true;
+            } catch (e) {
+                console.error('SQL Error:', e.message, sql);
+                showToast('خطا: ' + e.message);
+                return false;
+            }
+        }
+        function dbQuery(sql, params = []) {
+            try {
+                const stmt = db.prepare(sql);
+                if (params.length) stmt.bind(params);
+                const rows = [];
+                while (stmt.step()) {
+                    rows.push(stmt.getAsObject());
+                }
+                stmt.free();
+                return rows;
+            } catch (e) {
+                console.error('Query Error:', e.message, sql);
+                return [];
+            }
+        }
+        function dbGet(sql, params = []) {
+            const rows = dbQuery(sql, params);
+            return rows.length > 0 ? rows[0] : null;
+        }
+        function showToast(msg) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = msg;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity .3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // ==================== Navigation ====================
+        document.querySelectorAll('.sidebar nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const panelId = this.dataset.panel;
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                const panel = document.getElementById('panel-' + panelId);
+                if (panel) panel.classList.add('active');
+                document.querySelectorAll('.sidebar nav a').forEach(l => l.classList.remove(
+                'active'));
+                this.classList.add('active');
+                // Close sidebar on mobile
+                document.getElementById('sidebar').classList.remove('open');
+                refreshPanel(panelId);
+            });
+        });
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+        // Close sidebar when clicking outside on mobile
+        document.getElementById('mainContent').addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        function refreshPanel(panelId) {
+            switch (panelId) {
+                case 'dashboard':
+                    refreshDashboard();
+                    break;
+                case 'students':
+                    refreshStudents();
+                    break;
+                case 'enrollment':
+                    refreshEnrollment();
+                    break;
+                case 'grades-mid':
+                    refreshGrades('چهارونیم_ماهه');
+                    break;
+                case 'grades-annual':
+                    refreshGrades('سالانه');
+                    break;
+                case 'attendance':
+                    refreshAttendance();
+                    break;
+                case 'results':
+                    refreshResults();
+                    break;
+                case 'textbooks':
+                    refreshTextbooks();
+                    break;
+                case 'report-cards':
+                    refreshReportCards();
+                    break;
+                case 'reports':
+                    loadView('v_کارنامه_شاگرد');
+                    break;
+            }
+        }
+        function refreshAllPanels() {
+            refreshDashboard();
+            refreshStudents();
+            refreshEnrollment();
+            refreshGrades('چهارونیم_ماهه');
+            refreshGrades('سالانه');
+            refreshAttendance();
+            refreshResults();
+            refreshTextbooks();
+            refreshReportCards();
+        }
+
+        // ==================== Dashboard ====================
+        function refreshDashboard() {
+            const totalStudents = dbGet("SELECT COUNT(*) AS cnt FROM شاگرد")?.cnt || 0;
+            const totalEnrolled = dbGet("SELECT COUNT(*) AS cnt FROM ثبت_نام WHERE وضعیت='فعال'")?.cnt || 0;
+            const totalPassed = dbGet("SELECT COUNT(*) AS cnt FROM نتیجه_نهایی WHERE نتیجه='کامیاب'")?.cnt || 0;
+            const totalConditional = dbGet("SELECT COUNT(*) AS cnt FROM نتیجه_نهایی WHERE نتیجه='مشروط'")?.cnt || 0;
+            const totalFailed = dbGet("SELECT COUNT(*) AS cnt FROM نتیجه_نهایی WHERE نتیجه='ناکام'")?.cnt || 0;
+            const totalBarred = dbGet("SELECT COUNT(*) AS cnt FROM نتیجه_نهایی WHERE نتیجه='محروم'")?.cnt || 0;
+            document.getElementById('dashboardStats').innerHTML = `
+            <div class="stat-card"><div class="stat-value">${totalStudents}</div><div class="stat-label">شاگردان ثبت شده</div></div>
+            <div class="stat-card"><div class="stat-value">${totalEnrolled}</div><div class="stat-label">ثبت نام فعال</div></div>
+            <div class="stat-card"><div class="stat-value" style="color:#27ae60;">${totalPassed}</div><div class="stat-label">کامیاب</div></div>
+            <div class="stat-card"><div class="stat-value" style="color:#e67e22;">${totalConditional}</div><div class="stat-label">مشروط</div></div>
+            <div class="stat-card"><div class="stat-value" style="color:#c0392b;">${totalFailed}</div><div class="stat-label">ناکام</div></div>
+            <div class="stat-card"><div class="stat-value" style="color:#7f8c8d;">${totalBarred}</div><div class="stat-label">محروم</div></div>
+          `;
+            const classRows = dbQuery(
+                "SELECT ص.نام_صنف,COUNT(ث.id) AS total,SUM(CASE WHEN ن.نتیجه='کامیاب' THEN 1 ELSE 0 END) AS passed,SUM(CASE WHEN ن.نتیجه='مشروط' THEN 1 ELSE 0 END) AS cond,SUM(CASE WHEN ن.نتیجه='ناکام' THEN 1 ELSE 0 END) AS failed,SUM(CASE WHEN ن.نتیجه='محروم' THEN 1 ELSE 0 END) AS barred FROM صنف ص LEFT JOIN ثبت_نام ث ON ث.صنف_id=ص.id LEFT JOIN نتیجه_نهایی ن ON ن.ثبت_نام_id=ث.id GROUP BY ص.id ORDER BY ص.شماره_صنف,ص.بخش"
+            );
+            const tbody = document.querySelector('#dashboardTable tbody');
+            tbody.innerHTML = classRows.map(r => `
+            <tr>
+              <td>${escapeHTML(r.نام_صنف)}</td>
+              <td>${r.total||0}</td>
+              <td><span class="badge badge-success">${r.passed||0}</span></td>
+              <td><span class="badge badge-warning">${r.cond||0}</span></td>
+              <td><span class="badge badge-danger">${r.failed||0}</span></td>
+              <td><span class="badge badge-info">${r.barred||0}</span></td>
+            </tr>`).join('');
+        }
+
+        // ==================== Students ====================
+        function refreshStudents() {
+            const rows = dbQuery("SELECT * FROM شاگرد ORDER BY id DESC");
+            const tbody = document.querySelector('#studentsTable tbody');
+            if (rows.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="6" class="empty-state"><span class="icon">👨‍🎓</span><br>هیچ شاگردی ثبت نشده است</td></tr>';
+            } else {
+                tbody.innerHTML = rows.map(r => `
+              <tr>
+                <td>${escapeHTML(r.نمبر_اساس||'-')}</td>
+                <td>${escapeHTML(r.شهرت)}</td>
+                <td>${escapeHTML(r.اسم)}</td>
+                <td>${escapeHTML(r.نام_پدر||'-')}</td>
+                <td>${r.جنسیت==='ذکور'?'ذکور':'اناث'}</td>
+                <td>
+                  <button class="btn btn-info btn-sm" onclick="editStudent(${r.id})">✏️</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteStudent(${r.id})">🗑️</button>
+                </td>
+              </tr>`).join('');
+            }
+        }
+        function openStudentModal(studentId = null) {
+            const student = studentId ? dbGet("SELECT * FROM شاگرد WHERE id=?", [studentId]) : null;
+            const html = `
+            <div class="modal-overlay" id="currentModal" onclick="if(event.target===this)closeModal()">
+              <div class="modal">
+                <div class="modal-header">
+                  <h3>${student?'ویرایش شاگرد':'شاگرد جدید'}</h3>
+                  <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+                <form onsubmit="saveStudent(event,${studentId||0})">
+                  <div class="form-grid">
+                    <div class="form-group"><label>نمبر اساس *</label><input name="نمبر_اساس" value="${escapeHTML(student?.نمبر_اساس||'')}" required></div>
+                    <div class="form-group"><label>نمبر تذکره</label><input name="نمبر_تذکره" value="${escapeHTML(student?.نمبر_تذکره||'')}"></div>
+                    <div class="form-group"><label>شهرت *</label><input name="شهرت" value="${escapeHTML(student?.شهرت||'')}" required></div>
+                    <div class="form-group"><label>اسم *</label><input name="اسم" value="${escapeHTML(student?.اسم||'')}" required></div>
+                    <div class="form-group"><label>نام پدر</label><input name="نام_پدر" value="${escapeHTML(student?.نام_پدر||'')}"></div>
+                    <div class="form-group"><label>نام پدرکلان</label><input name="نام_پدرکلان" value="${escapeHTML(student?.نام_پدرکلان||'')}"></div>
+                    <div class="form-group"><label>جنسیت</label><select name="جنسیت"><option value="ذکور" ${student?.جنسیت==='ذکور'?'selected':''}>ذکور</option><option value="اناث" ${student?.جنسیت==='اناث'?'selected':''}>اناث</option></select></div>
+                    <div class="form-group"><label>تاریخ تولد</label><input type="date" name="تاریخ_تولد" value="${student?.تاریخ_تولد||''}"></div>
+                    <div class="form-group"><label>ولایت اصلی</label><input name="ولایت_اصلی" value="${escapeHTML(student?.ولایت_اصلی||'')}"></div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="margin-top:1rem;">💾 ذخیره</button>
+                </form>
+              </div>
+            </div>`;
+            document.getElementById('modalContainer').innerHTML = html;
+        }
+        async function saveStudent(e, studentId) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const data = Object.fromEntries(fd.entries());
+            if (studentId) {
+                dbRun(
+                    "UPDATE شاگرد SET نمبر_اساس=?,نمبر_تذکره=?,شهرت=?,اسم=?,نام_پدر=?,نام_پدرکلان=?,جنسیت=?,تاریخ_تولد=?,ولایت_اصلی=? WHERE id=?",
+                    [data.نمبر_اساس, data.نمبر_تذکره, data.شهرت, data.اسم, data.نام_پدر, data.نام_پدرکلان, data.جنسیت, data
+                        .تاریخ_تولد || null, data.ولایت_اصلی, studentId
+                    ]);
+            } else {
+                dbRun(
+                    "INSERT INTO شاگرد(نمبر_اساس,نمبر_تذکره,شهرت,اسم,نام_پدر,نام_پدرکلان,جنسیت,تاریخ_تولد,ولایت_اصلی) VALUES(?,?,?,?,?,?,?,?,?)",
+                    [data.نمبر_اساس, data.نمبر_تذکره, data.شهرت, data.اسم, data.نام_پدر, data.نام_پدرکلان, data.جنسیت, data
+                        .تاریخ_تولد || null, data.ولایت_اصلی
+                    ]);
+            }
+            closeModal();
+            refreshStudents();
+            await saveDBToIDB();
+            showToast('✅ شاگرد با موفقیت ذخیره شد');
+        }
+        function editStudent(id) { openStudentModal(id); }
+        async function deleteStudent(id) {
+            if (!confirm('آیا مطمئن هستید؟ این عمل قابل بازگشت نیست.')) return;
+            dbRun("DELETE FROM شاگرد WHERE id=?", [id]);
+            refreshStudents();
+            await saveDBToIDB();
+            showToast('🗑️ شاگرد حذف شد');
+        }
+        function closeModal() { document.getElementById('modalContainer').innerHTML = ''; }
+
+        // ==================== Enrollment ====================
+        function refreshEnrollment() {
+            const rows = dbQuery(
+                "SELECT ث.id,ش.شهرت,ش.اسم,ص.نام_صنف,ث.شماره_در_صنف,ث.وضعیت FROM ثبت_نام ث JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id ORDER BY ث.id DESC"
+            );
+            const tbody = document.querySelector('#enrollmentTable tbody');
+            if (rows.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5" class="empty-state"><span class="icon">📝</span><br>هیچ ثبت نامی موجود نیست</td></tr>';
+            } else {
+                tbody.innerHTML = rows.map(r => `
+              <tr>
+                <td>${escapeHTML(r.شهرت+' '+r.اسم)}</td>
+                <td>${escapeHTML(r.نام_صنف)}</td>
+                <td>${r.شماره_در_صنف||'-'}</td>
+                <td><span class="badge ${r.وضعیت==='فعال'?'badge-success':'badge-warning'}">${r.وضعیت}</span></td>
+                <td><button class="btn btn-danger btn-sm" onclick="deleteEnrollment(${r.id})">🗑️</button></td>
+              </tr>`).join('');
+            }
+        }
+        function openEnrollmentModal() {
+            const students = dbQuery("SELECT id,شهرت,اسم,نمبر_اساس FROM شاگرد ORDER BY id DESC");
+            const classes = dbQuery("SELECT id,نام_صنف FROM صنف ORDER BY شماره_صنف,بخش");
+            const html = `
+            <div class="modal-overlay" id="currentModal" onclick="if(event.target===this)closeModal()">
+              <div class="modal">
+                <div class="modal-header"><h3>ثبت نام جدید</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+                <form onsubmit="saveEnrollment(event)">
+                  <div class="form-grid">
+                    <div class="form-group"><label>شاگرد *</label><select name="شاگرد_id" required>${students.map(s=>`<option value="${s.id}">${escapeHTML(s.شهرت+' '+s.اسم+' ('+s.نمبر_اساس+')')}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>صنف *</label><select name="صنف_id" required>${classes.map(c=>`<option value="${c.id}">${escapeHTML(c.نام_صنف)}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>شماره در صنف</label><input type="number" name="شماره_در_صنف" value="1"></div>
+                    <div class="form-group"><label>تاریخ ثبت</label><input type="date" name="تاریخ_ثبت" value="${new Date().toISOString().split('T')[0]}"></div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="margin-top:1rem;">💾 ذخیره</button>
+                </form>
+              </div>
+            </div>`;
+            document.getElementById('modalContainer').innerHTML = html;
+        }
+        async function saveEnrollment(e) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const data = Object.fromEntries(fd.entries());
+            const result = dbRun(
+                "INSERT OR IGNORE INTO ثبت_نام(شاگرد_id,صنف_id,شماره_در_صنف,تاریخ_ثبت) VALUES(?,?,?,?)",
+                [data.شاگرد_id, data.صنف_id, data.شماره_در_صنف || 1, data.تاریخ_ثبت || null]);
+            if (!result) { showToast('⚠️ این شاگرد قبلاً در این صنف ثبت شده است'); return; }
+            closeModal();
+            refreshEnrollment();
+            await saveDBToIDB();
+            showToast('✅ ثبت نام موفق');
+        }
+        async function deleteEnrollment(id) {
+            if (!confirm('حذف ثبت نام؟')) return;
+            dbRun("DELETE FROM ثبت_نام WHERE id=?", [id]);
+            refreshEnrollment();
+            await saveDBToIDB();
+            showToast('🗑️ ثبت نام حذف شد');
+        }
+
+        // ==================== Grades ====================
+        function refreshGrades(examType) {
+            const tableName = examType === 'چهارونیم_ماهه' ? 'نمرات_چهارونیم_ماهه' : 'نمرات_سالانه';
+            const tableId = examType === 'چهارونیم_ماهه' ? 'gradesMidTable' : 'gradesAnnualTable';
+            const rows = dbQuery(
+                `SELECT ن.id,ش.شهرت,ش.اسم,م.نام AS مضمون,ن.تحریری,ن.تقریری_عملی,ن.فعالیت_صنفی,ن.کار_خانگی,ن.مجموعه FROM ${tableName} ن JOIN ثبت_نام ث ON ث.id=ن.ثبت_نام_id JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN مضمون م ON م.id=ن.مضمون_id ORDER BY ن.id DESC LIMIT 100`
+            );
+            const tbody = document.querySelector(`#${tableId} tbody`);
+            if (rows.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="7" class="empty-state"><span class="icon">📋</span><br>نمره‌ای ثبت نشده</td></tr>';
+            } else {
+                tbody.innerHTML = rows.map(r => `
+              <tr>
+                <td>${escapeHTML(r.شهرت+' '+r.اسم)}</td><td>${escapeHTML(r.مضمون)}</td>
+                <td>${r.تحریری||0}</td><td>${r.تقریری_عملی||0}</td><td>${r.فعالیت_صنفی||0}</td><td>${r.کار_خانگی||0}</td>
+                <td><strong>${r.مجموعه||0}</strong></td>
+              </tr>`).join('');
+            }
+        }
+        function openGradeModal(examType) {
+            const enrollments = dbQuery(
+                "SELECT ث.id,ش.شهرت,ش.اسم,ص.نام_صنف FROM ثبت_نام ث JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id WHERE ث.وضعیت='فعال' ORDER BY ث.id DESC"
+            );
+            const subjects = dbQuery("SELECT id,نام FROM مضمون ORDER BY ترتیب");
+            const html = `
+            <div class="modal-overlay" id="currentModal" onclick="if(event.target===this)closeModal()">
+              <div class="modal">
+                <div class="modal-header"><h3>ثبت نمره - ${examType==='چهارونیم_ماهه'?'۴.۵ ماهه':'سالانه'}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+                <form onsubmit="saveGrade(event,'${examType}')">
+                  <div class="form-grid">
+                    <div class="form-group"><label>شاگرد *</label><select name="ثبت_نام_id" required>${enrollments.map(e=>`<option value="${e.id}">${escapeHTML(e.شهرت+' '+e.اسم+' - '+e.نام_صنف)}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>مضمون *</label><select name="مضمون_id" required>${subjects.map(s=>`<option value="${s.id}">${escapeHTML(s.نام)}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>تحریری (0-60)</label><input type="number" name="تحریری" min="0" max="60" value="0" step="0.5"></div>
+                    <div class="form-group"><label>تقریری/عملی (0-20)</label><input type="number" name="تقریری_عملی" min="0" max="20" value="0" step="0.5"></div>
+                    <div class="form-group"><label>فعالیت صنفی (0-10)</label><input type="number" name="فعالیت_صنفی" min="0" max="10" value="0" step="0.5"></div>
+                    <div class="form-group"><label>کار خانگی (0-10)</label><input type="number" name="کار_خانگی" min="0" max="10" value="0" step="0.5"></div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="margin-top:1rem;">💾 ذخیره</button>
+                </form>
+              </div>
+            </div>`;
+            document.getElementById('modalContainer').innerHTML = html;
+        }
+        async function saveGrade(e, examType) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const data = Object.fromEntries(fd.entries());
+            const tableName = examType === 'چهارونیم_ماهه' ? 'نمرات_چهارونیم_ماهه' : 'نمرات_سالانه';
+            dbRun(
+                `INSERT OR REPLACE INTO ${tableName}(ثبت_نام_id,مضمون_id,تحریری,تقریری_عملی,فعالیت_صنفی,کار_خانگی) VALUES(?,?,?,?,?,?)`,
+                [data.ثبت_نام_id, data.مضمون_id, data.تحریری || 0, data.تقریری_عملی || 0, data.فعالیت_صنفی || 0, data
+                    .کار_خانگی || 0
+                ]);
+            closeModal();
+            refreshGrades(examType);
+            await saveDBToIDB();
+            showToast('✅ نمره ثبت شد');
+        }
+
+        // ==================== Attendance ====================
+        function refreshAttendance() {
+            const rows = dbQuery(
+                "SELECT ض.id,ش.شهرت,ش.اسم,ض.نوع_امتحان,ض.حاضر,ض.غیر_حاضر,ض.مریض,ض.رخصت,ض.مجموعه_غیاب,ض.محروم FROM ضوابط_حاضری ض JOIN ثبت_نام ث ON ث.id=ض.ثبت_نام_id JOIN شاگرد ش ON ش.id=ث.شاگرد_id ORDER BY ض.id DESC LIMIT 100"
+            );
+            const tbody = document.querySelector('#attendanceTable tbody');
+            if (rows.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="8" class="empty-state"><span class="icon">📅</span><br>حاضری ثبت نشده</td></tr>';
+            } else {
+                tbody.innerHTML = rows.map(r => `
+              <tr>
+                <td>${escapeHTML(r.شهرت+' '+r.اسم)}</td><td>${r.نوع_امتحان==='چهارونیم_ماهه'?'۴.۵ ماهه':'سالانه'}</td>
+                <td>${r.حاضر||0}</td><td>${r.غیر_حاضر||0}</td><td>${r.مریض||0}</td><td>${r.رخصت||0}</td>
+                <td>${r.مجموعه_غیاب||0}</td>
+                <td><span class="badge ${r.محروم?'badge-danger':'badge-success'}">${r.محروم?'محروم':'شامل'}</span></td>
+              </tr>`).join('');
+            }
+        }
+        function openAttendanceModal() {
+            const enrollments = dbQuery(
+                "SELECT ث.id,ش.شهرت,ش.اسم,ص.نام_صنف FROM ثبت_نام ث JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id WHERE ث.وضعیت='فعال' ORDER BY ث.id DESC"
+            );
+            const html = `
+            <div class="modal-overlay" id="currentModal" onclick="if(event.target===this)closeModal()">
+              <div class="modal">
+                <div class="modal-header"><h3>ثبت حاضری</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+                <form onsubmit="saveAttendance(event)">
+                  <div class="form-grid">
+                    <div class="form-group"><label>شاگرد *</label><select name="ثبت_نام_id" required>${enrollments.map(e=>`<option value="${e.id}">${escapeHTML(e.شهرت+' '+e.اسم+' - '+e.نام_صنف)}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>نوع امتحان</label><select name="نوع_امتحان"><option value="چهارونیم_ماهه">۴.۵ ماهه</option><option value="سالانه">سالانه</option></select></div>
+                    <div class="form-group"><label>ایام کل</label><input type="number" name="ایام_کل" value="90"></div>
+                    <div class="form-group"><label>حاضر</label><input type="number" name="حاضر" value="85"></div>
+                    <div class="form-group"><label>غیر حاضر</label><input type="number" name="غیر_حاضر" value="3"></div>
+                    <div class="form-group"><label>مریض</label><input type="number" name="مریض" value="1"></div>
+                    <div class="form-group"><label>رخصت</label><input type="number" name="رخصت" value="1"></div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="margin-top:1rem;">💾 ذخیره</button>
+                </form>
+              </div>
+            </div>`;
+            document.getElementById('modalContainer').innerHTML = html;
+        }
+        async function saveAttendance(e) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const data = Object.fromEntries(fd.entries());
+            dbRun(
+                "INSERT OR REPLACE INTO ضوابط_حاضری(ثبت_نام_id,نوع_امتحان,ایام_کل,حاضر,غیر_حاضر,مریض,رخصت) VALUES(?,?,?,?,?,?,?)",
+                [data.ثبت_نام_id, data.نوع_امتحان, data.ایام_کل || 90, data.حاضر || 0, data.غیر_حاضر || 0, data.مریض || 0,
+                    data.رخصت || 0
+                ]);
+            // Update محروم based on غیاب
+            const attend = dbGet("SELECT * FROM ضوابط_حاضری WHERE ثبت_نام_id=? AND نوع_امتحان=?",
+                [data.ثبت_نام_id, data.نوع_امتحان]);
+            if (attend) {
+                const classInfo = dbGet(
+                    "SELECT ص.ایام_محرومی FROM ثبت_نام ث JOIN صنف ص ON ص.id=ث.صنف_id WHERE ث.id=?",
+                    [data.ثبت_نام_id]);
+                const maxAbsence = classInfo?.ایام_محرومی || 58;
+                const totalAbsence = (attend.غیر_حاضر || 0) + (attend.مریض || 0) + (attend.رخصت || 0);
+                dbRun("UPDATE ضوابط_حاضری SET محروم=? WHERE id=?", [totalAbsence > maxAbsence ? 1 : 0, attend.id]);
+            }
+            closeModal();
+            refreshAttendance();
+            await saveDBToIDB();
+            showToast('✅ حاضری ثبت شد');
+        }
+
+        // ==================== Results ====================
+        function refreshResults() {
+            const rows = dbQuery(
+                "SELECT ن.id,ش.شهرت,ش.اسم,ص.نام_صنف,ن.اوسط_کل,ن.نتیجه,ن.درجه,ن.رتبه,ن.ارتقا_به_صنف FROM نتیجه_نهایی ن JOIN ثبت_نام ث ON ث.id=ن.ثبت_نام_id JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id ORDER BY ن.id DESC"
+            );
+            const tbody = document.querySelector('#resultsTable tbody');
+            if (rows.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="7" class="empty-state"><span class="icon">🏆</span><br>نتیجه‌ای ثبت نشده</td></tr>';
+            } else {
+                tbody.innerHTML = rows.map(r => {
+                    let badgeClass = 'badge-info';
+                    if (r.نتیجه === 'کامیاب') badgeClass = 'badge-success';
+                    if (r.نتیجه === 'مشروط') badgeClass = 'badge-warning';
+                    if (r.نتیجه === 'ناکام') badgeClass = 'badge-danger';
+                    if (r.نتیجه === 'محروم') badgeClass = 'badge-info';
+                    return `
+                <tr>
+                  <td>${escapeHTML(r.شهرت+' '+r.اسم)}</td><td>${escapeHTML(r.نام_صنف)}</td>
+                  <td><strong>${r.اوسط_کل||0}</strong></td>
+                  <td><span class="badge ${badgeClass}">${r.نتیجه||'-'}</span></td>
+                  <td>${r.درجه||'-'}</td><td>${r.رتبه||'-'}</td><td>${r.ارتقا_به_صنف||'-'}</td>
+                </tr>`;
+                }).join('');
+            }
+        }
+        function openResultModal() {
+            const enrollments = dbQuery(
+                "SELECT ث.id,ش.شهرت,ش.اسم,ص.نام_صنف FROM ثبت_نام ث JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id WHERE ث.وضعیت='فعال' ORDER BY ث.id DESC"
+            );
+            const html = `
+            <div class="modal-overlay" id="currentModal" onclick="if(event.target===this)closeModal()">
+              <div class="modal">
+                <div class="modal-header"><h3>ثبت نتیجه نهایی</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+                <form onsubmit="saveResult(event)">
+                  <div class="form-grid">
+                    <div class="form-group"><label>شاگرد *</label><select name="ثبت_نام_id" required>${enrollments.map(e=>`<option value="${e.id}">${escapeHTML(e.شهرت+' '+e.اسم+' - '+e.نام_صنف)}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>مجموعه ۴.۵ ماهه</label><input type="number" name="مجموعه_چهارونیم_ماهه" step="0.1"></div>
+                    <div class="form-group"><label>اوسط ۴.۵ ماهه</label><input type="number" name="اوسط_چهارونیم_ماهه" step="0.01"></div>
+                    <div class="form-group"><label>مجموعه سالانه</label><input type="number" name="مجموعه_سالانه" step="0.1"></div>
+                    <div class="form-group"><label>اوسط سالانه</label><input type="number" name="اوسط_سالانه" step="0.01"></div>
+                    <div class="form-group"><label>نتیجه</label><select name="نتیجه"><option value="کامیاب">کامیاب</option><option value="مشروط">مشروط</option><option value="ناکام">ناکام</option><option value="محروم">محروم</option><option value="معذرتی">معذرتی</option><option value="غایب">غایب</option></select></div>
+                    <div class="form-group"><label>درجه</label><select name="درجه"><option value="">--</option><option value="اعلی">اعلی (90-100)</option><option value="عالی">عالی (80-89)</option><option value="بسیار خوب">بسیار خوب (70-79)</option><option value="خوب">خوب (60-69)</option><option value="قابل قبول">قابل قبول (50-59)</option></select></div>
+                    <div class="form-group"><label>رتبه</label><input type="number" name="رتبه" value="1"></div>
+                    <div class="form-group"><label>ارتقا به صنف</label><input type="number" name="ارتقا_به_صنف" value="6"></div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="margin-top:1rem;">💾 ذخیره</button>
+                </form>
+              </div>
+            </div>`;
+            document.getElementById('modalContainer').innerHTML = html;
+        }
+        async function saveResult(e) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const data = Object.fromEntries(fd.entries());
+            const total =
+                (parseFloat(data.مجموعه_چهارونیم_ماهه) || 0) + (parseFloat(data.مجموعه_سالانه) || 0);
+            const avgTotal = total / 2;
+            dbRun(
+                "INSERT OR REPLACE INTO نتیجه_نهایی(ثبت_نام_id,مجموعه_چهارونیم_ماهه,اوسط_چهارونیم_ماهه,مجموعه_سالانه,اوسط_سالانه,مجموعه_کل,اوسط_کل,نتیجه,درجه,رتبه,ارتقا_به_صنف) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+                [data.ثبت_نام_id, data.مجموعه_چهارونیم_ماهه || null, data.اوسط_چهارونیم_ماهه || null, data.مجموعه_سالانه ||
+                    null, data.اوسط_سالانه || null, total || null, avgTotal || null, data.نتیجه, data.درجه || null,
+                    data.رتبه || null, data.ارتقا_به_صنف || null
+                ]);
+            closeModal();
+            refreshResults();
+            await saveDBToIDB();
+            showToast('✅ نتیجه ثبت شد');
+        }
+
+        // ==================== Textbooks ====================
+        function refreshTextbooks() {
+            const rows = dbQuery(
+                "SELECT ت.id,ش.شهرت,ش.اسم,COALESCE(م.نام,ت.نام_کتاب) AS کتاب,ت.تعداد_دریافت,ت.تاریخ_توزیع,ت.امضاء_شاگرد FROM توزیع_کتب ت JOIN ثبت_نام ث ON ث.id=ت.ثبت_نام_id JOIN شاگرد ش ON ش.id=ث.شاگرد_id LEFT JOIN مضمون م ON م.id=ت.مضمون_id ORDER BY ت.id DESC LIMIT 100"
+            );
+            const tbody = document.querySelector('#textbooksTable tbody');
+            if (rows.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5" class="empty-state"><span class="icon">📚</span><br>توزیع کتابی ثبت نشده</td></tr>';
+            } else {
+                tbody.innerHTML = rows.map(r => `
+              <tr>
+                <td>${escapeHTML(r.شهرت+' '+r.اسم)}</td><td>${escapeHTML(r.کتاب||'-')}</td>
+                <td>${r.تعداد_دریافت||1}</td><td>${r.تاریخ_توزیع||'-'}</td>
+                <td>${r.امضاء_شاگرد?'✅':'❌'}</td>
+              </tr>`).join('');
+            }
+        }
+        function openTextbookModal() {
+            const enrollments = dbQuery(
+                "SELECT ث.id,ش.شهرت,ش.اسم,ص.نام_صنف FROM ثبت_نام ث JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id WHERE ث.وضعیت='فعال' ORDER BY ث.id DESC"
+            );
+            const subjects = dbQuery("SELECT id,نام FROM مضمون ORDER BY ترتیب");
+            const html = `
+            <div class="modal-overlay" id="currentModal" onclick="if(event.target===this)closeModal()">
+              <div class="modal">
+                <div class="modal-header"><h3>ثبت توزیع کتاب</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+                <form onsubmit="saveTextbook(event)">
+                  <div class="form-grid">
+                    <div class="form-group"><label>شاگرد *</label><select name="ثبت_نام_id" required>${enrollments.map(e=>`<option value="${e.id}">${escapeHTML(e.شهرت+' '+e.اسم+' - '+e.نام_صنف)}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>مضمون</label><select name="مضمون_id"><option value="">--</option>${subjects.map(s=>`<option value="${s.id}">${escapeHTML(s.نام)}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>نام کتاب</label><input name="نام_کتاب"></div>
+                    <div class="form-group"><label>تعداد</label><input type="number" name="تعداد_دریافت" value="1"></div>
+                    <div class="form-group"><label>تاریخ توزیع</label><input type="date" name="تاریخ_توزیع" value="${new Date().toISOString().split('T')[0]}"></div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="margin-top:1rem;">💾 ذخیره</button>
+                </form>
+              </div>
+            </div>`;
+            document.getElementById('modalContainer').innerHTML = html;
+        }
+        async function saveTextbook(e) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const data = Object.fromEntries(fd.entries());
+            dbRun("INSERT INTO توزیع_کتب(ثبت_نام_id,مضمون_id,نام_کتاب,تعداد_دریافت,تاریخ_توزیع) VALUES(?,?,?,?,?)",
+                [data.ثبت_نام_id, data.مضمون_id || null, data.نام_کتاب || null, data.تعداد_دریافت || 1, data.تاریخ_توزیع ||
+                    null
+                ]);
+            closeModal();
+            refreshTextbooks();
+            await saveDBToIDB();
+            showToast('✅ توزیع کتاب ثبت شد');
+        }
+
+        // ==================== Report Cards ====================
+        function refreshReportCards() {
+            const rows = dbQuery(
+                "SELECT ا.id,ش.شهرت,ش.اسم,ا.نوع_امتحان,ا.تاریخ_صدور,ا.چاپ_شده,ا.تحویل_شده FROM اطلاع_نامه ا JOIN ثبت_نام ث ON ث.id=ا.ثبت_نام_id JOIN شاگرد ش ON ش.id=ث.شاگرد_id ORDER BY ا.id DESC LIMIT 100"
+            );
+            const tbody = document.querySelector('#reportCardsTable tbody');
+            if (rows.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5" class="empty-state"><span class="icon">📜</span><br>اطلاع نامه‌ای صادر نشده</td></tr>';
+            } else {
+                tbody.innerHTML = rows.map(r => `
+              <tr>
+                <td>${escapeHTML(r.شهرت+' '+r.اسم)}</td>
+                <td>${r.نوع_امتحان==='چهارونیم_ماهه'?'۴.۵ ماهه':'سالانه'}</td>
+                <td>${r.تاریخ_صدور||'-'}</td>
+                <td>${r.چاپ_شده?'✅ چاپ شده':'❌'}</td>
+                <td>${r.تحویل_شده?'✅ تحویل شده':'❌'}</td>
+              </tr>`).join('');
+            }
+        }
+        function generateReportCard() {
+            const enrollments = dbQuery(
+                "SELECT ث.id,ش.شهرت,ش.اسم,ص.نام_صنف FROM ثبت_نام ث JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id WHERE ث.وضعیت='فعال' ORDER BY ث.id DESC"
+            );
+            if (enrollments.length === 0) { showToast('⚠️ هیچ ثبت نام فعالی موجود نیست'); return; }
+            const html = `
+            <div class="modal-overlay" id="currentModal" onclick="if(event.target===this)closeModal()">
+              <div class="modal">
+                <div class="modal-header"><h3>صدور اطلاع نامه</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+                <form onsubmit="issueReportCard(event)">
+                  <div class="form-grid">
+                    <div class="form-group"><label>شاگرد *</label><select name="ثبت_نام_id" required>${enrollments.map(e=>`<option value="${e.id}">${escapeHTML(e.شهرت+' '+e.اسم+' - '+e.نام_صنف)}</option>`).join('')}</select></div>
+                    <div class="form-group"><label>نوع امتحان</label><select name="نوع_امتحان"><option value="چهارونیم_ماهه">۴.۵ ماهه</option><option value="سالانه">سالانه</option></select></div>
+                    <div class="form-group"><label>تاریخ صدور</label><input type="date" name="تاریخ_صدور" value="${new Date().toISOString().split('T')[0]}"></div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="margin-top:1rem;">📜 صدور اطلاع نامه</button>
+                </form>
+              </div>
+            </div>`;
+            document.getElementById('modalContainer').innerHTML = html;
+        }
+        async function issueReportCard(e) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const data = Object.fromEntries(fd.entries());
+            dbRun("INSERT INTO اطلاع_نامه(ثبت_نام_id,نوع_امتحان,تاریخ_صدور,چاپ_شده,تحویل_شده) VALUES(?,?,?,1,0)",
+                [data.ثبت_نام_id, data.نوع_امتحان, data.تاریخ_صدور]);
+            closeModal();
+            refreshReportCards();
+            await saveDBToIDB();
+            showToast('✅ اطلاع نامه صادر شد');
+        }
+
+        // ==================== Reports / Views ====================
+        function loadView(viewName) {
+            let sql = '';
+            switch (viewName) {
+                case 'v_کارنامه_شاگرد':
+                    sql =
+                        "SELECT ش.شهرت||' '||ش.اسم AS نام_کامل,ش.نام_پدر,ش.نمبر_اساس,ص.نام_صنف,ن.نام AS مضمون,COALESCE(نچ.مجموعه,0) AS نمره_چهارونیم_ماهه,COALESCE(نس.مجموعه,0) AS نمره_سالانه,COALESCE(نچ.مجموعه,0)+COALESCE(نس.مجموعه,0) AS مجموعه_کل,نن.نتیجه,نن.درجه,نن.رتبه FROM ثبت_نام ث JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id JOIN مضمون_صنف مص ON مص.صنف_id=ص.id JOIN مضمون ن ON ن.id=مص.مضمون_id LEFT JOIN نمرات_چهارونیم_ماهه نچ ON نچ.ثبت_نام_id=ث.id AND نچ.مضمون_id=ن.id LEFT JOIN نمرات_سالانه نس ON نس.ثبت_نام_id=ث.id AND نس.مضمون_id=ن.id LEFT JOIN نتیجه_نهایی نن ON نن.ثبت_نام_id=ث.id ORDER BY ص.نام_صنف,ث.شماره_در_صنف,ن.ترتیب LIMIT 200";
+                    break;
+                case 'v_خلص_صنف':
+                    sql =
+                        "SELECT ص.نام_صنف,خ.نوع_امتحان,خ.تعداد_داخله,خ.شامل_امتحان,خ.کامیاب,خ.مشروط,خ.ناکام,خ.محروم,خ.ارتقا_صنف,خ.تکرار_صنف,ROUND(CAST(خ.کامیاب AS REAL)*100.0/NULLIF(خ.شامل_امتحان,0),1) AS درصد_کامیابی FROM خلص_احصائیه خ JOIN صنف ص ON ص.id=خ.صنف_id";
+                    break;
+                case 'v_خلص_حاضری':
+                    sql =
+                        "SELECT ش.شهرت||' '||ش.اسم AS نام_کامل,ص.نام_صنف,ض.نوع_امتحان,ض.حاضر,ض.غیر_حاضر,ض.مریض,ض.رخصت,ض.مجموعه_غیاب,ص.ایام_محرومی,CASE WHEN ض.مجموعه_غیاب>ص.ایام_محرومی THEN 'محروم' ELSE 'شامل' END AS وضعیت_امتحان FROM ضوابط_حاضری ض JOIN ثبت_نام ث ON ث.id=ض.ثبت_نام_id JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id LIMIT 200";
+                    break;
+                case 'v_شاگردان_کامیاب':
+                    sql =
+                        "SELECT ش.شهرت||' '||ش.اسم AS نام_کامل,ش.نام_پدر,ش.نمبر_اساس,ص.نام_صنف,ث.شماره_در_صنف AS شماره,نن.اوسط_کل,نن.درجه,نن.رتبه,نن.ارتقا_به_صنف FROM نتیجه_نهایی نن JOIN ثبت_نام ث ON ث.id=نن.ثبت_نام_id JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id WHERE نن.نتیجه IN('کامیاب','مشروط') ORDER BY ص.نام_صنف,نن.رتبه LIMIT 200";
+                    break;
+                case 'v_شاگردان_ناکام_محروم':
+                    sql =
+                        "SELECT ش.شهرت||' '||ش.اسم AS نام_کامل,ش.نام_پدر,ش.نمبر_اساس,ص.نام_صنف,ث.شماره_در_صنف AS شماره,نن.نتیجه,نن.اوسط_کل FROM نتیجه_نهایی نن JOIN ثبت_نام ث ON ث.id=نن.ثبت_نام_id JOIN شاگرد ش ON ش.id=ث.شاگرد_id JOIN صنف ص ON ص.id=ث.صنف_id WHERE نن.نتیجه IN('ناکام','محروم') ORDER BY ص.نام_صنف LIMIT 200";
+                    break;
+                default:
+                    sql = "SELECT * FROM شاگرد LIMIT 50";
+            }
+            const rows = dbQuery(sql);
+            const thead = document.getElementById('reportsTableHead');
+            const tbody = document.getElementById('reportsTableBody');
+            if (rows.length === 0) {
+                thead.innerHTML = '<tr><th>نتیجه</th></tr>';
+                tbody.innerHTML = '<tr><td class="empty-state"><span class="icon">📈</span><br>داده‌ای یافت نشد</td></tr>';
+            } else {
+                const cols = Object.keys(rows[0]);
+                thead.innerHTML = '<tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr>';
+                tbody.innerHTML = rows.map(r => '<tr>' + cols.map(c =>
+                    `<td>${escapeHTML(String(r[c]??'-'))}</td>`).join('') + '</tr>').join('');
+            }
+            // Activate reports panel
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-reports').classList.add('active');
+            document.querySelectorAll('.sidebar nav a').forEach(l => l.classList.remove('active'));
+            document.querySelector('[data-panel="reports"]')?.classList.add('active');
+        }
+
+        // ==================== Export ====================
+        function exportReport() {
+            const activePanel = document.querySelector('.panel.active');
+            if (!activePanel) return showToast('پنلی فعال نیست');
+            const printWindow = window.open('', '_blank', 'width=900,height=700');
+            printWindow.document.write(`
+            <!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>گزارش - وزارت معارف</title>
+            <style>body{font-family:'Segoe UI',Tahoma,sans-serif;padding:20px;direction:rtl;}
+            table{width:100%;border-collapse:collapse;margin-top:10px;}
+            th,td{padding:8px 10px;border:1px solid #ccc;text-align:right;font-size:13px;}
+            th{background:#1a5c2a;color:#fff;}h2{color:#1a5c2a;}
+    </style></head><body>
+        <h2>🏫 گزارش سیستم ثبت نتایج - وزارت معارف افغانستان</h2>
+        <p>تاریخ: ${new Date().toLocaleDateString('fa-IR')}</p>
+        ${activePanel.innerHTML}</body></html>`);
+printWindow.document.close();
+printWindow.print();
+}
+
+// ==================== Service Worker ====================
+if('serviceWorker' in navigator) {
+const swCode = `
+const CACHE_NAME='school-pwa-v2';
+const ASSETS=['/'];
+self.addEventListener('install',e=>{self.skipWaiting();});
+self.addEventListener('activate',e=>{e.waitUntil(self.clients.claim());});
+self.addEventListener('fetch',e=>{
+if(e.request.method!=='GET')return;
+e.respondWith(
+caches.match(e.request).then(cached=>{
+return cached||fetch(e.request).then(resp=>{
+if(resp.ok){
+const clone=resp.clone();
+caches.open(CACHE_NAME).then(c=>c.put(e.request,clone));
+}
+return resp;
+}).catch(()=>cached||new Response('Offline',{status:503}));
+})
+);
+});
+`;
+const swBlob=new Blob([swCode],{type:'application/javascript'});
+const swUrl=URL.createObjectURL(swBlob);
+navigator.serviceWorker.register(swUrl,{scope:'/'}).then(reg=>{
+console.log('SW registered:',reg.scope);
+}).catch(e=>console.warn('SW registration failed (expected for blob):',e.message));
+}
+
+// ==================== Offline Indicator ====================
+window.addEventListener('online',()=>{
+document.getElementById('offlineIndicator').classList.remove('show');
+updateDBStatus('🌐 آنلاین');
+});
+window.addEventListener('offline',()=>{
+document.getElementById('offlineIndicator').classList.add('show');
+updateDBStatus('📡 آفلاین');
+});
+if(!navigator.onLine){
+document.getElementById('offlineIndicator').classList.add('show');
+updateDBStatus('📡 آفلاین');
+}
+
+// ==================== Keyboard Shortcuts ====================
+document.addEventListener('keydown',function(e){
+if(e.ctrlKey&&e.key==='s'){e.preventDefault();saveToDisk();}
+if(e.key==='Escape'){closeModal();}
+});
+
+// ==================== Initialize ====================
+async function boot(){
+showToast('🚀 در حال راه‌اندازی سیستم...');
+await initDatabase();
+refreshAllPanels();
+showToast('✅ سیستم آماده است - وزارت معارف افغانستان');
+// Auto-refresh dashboard every 60s
+setInterval(refreshDashboard,60000);
+}
+boot();
+
+// ==================== Handle beforeunload ====================
+window.addEventListener('beforeunload',async()=>{
+await saveDBToIDB();
+});
+</script>
+</body>
+</html>
