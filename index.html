@@ -3,16 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سیستم مکمل مدیریت شقه - لیسه عالی معرفت افغان</title>
-    
-    <!-- Required Libraries -->
+    <title>مدیریت شقه - لیسه عالی معرفت افغان</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
-    </script>
-
     <style>
         :root {
             --primary: #1a3c5e;
@@ -22,1619 +15,381 @@
             --danger: #e74c3c;
             --light: #f8f9fa;
             --border: #dee2e6;
-            --text: #2c3e50;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Tahoma', 'Segoe UI', Arial, sans-serif;
             background: #ecf0f1;
-            color: var(--text);
-            line-height: 1.6;
+            color: #2c3e50;
+            direction: rtl;
         }
 
-        /* ========== HEADER ========== */
+        /* Header */
         .header {
-            background: linear-gradient(135deg, #0d1b2a, #1b2838, #1a3c5e);
+            background: linear-gradient(135deg, #0d1b2a, #1a3c5e);
             color: white;
             padding: 10px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             position: sticky;
             top: 0;
             z-index: 100;
-        }
-
-        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
-            max-width: 1400px;
-            margin: 0 auto;
+            gap: 10px;
         }
-
-        .ministry h4 {
-            font-size: 13px;
-            margin: 2px 0;
-            opacity: 0.9;
-        }
-
-        .school-title {
-            text-align: center;
-        }
-
-        .school-title h1 {
-            font-size: 22px;
-            letter-spacing: 1px;
-        }
-
-        .school-title .badge {
-            background: var(--warning);
-            color: #000;
-            padding: 3px 12px;
-            border-radius: 15px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .year-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 13px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        /* ========== BUTTONS ========== */
+        .header h1 { font-size: 20px; }
+        .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         .btn {
-            padding: 8px 16px;
+            padding: 7px 15px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
             font-weight: 600;
-            transition: all 0.2s;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
             gap: 5px;
             white-space: nowrap;
+            transition: all 0.2s;
         }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
         .btn-primary { background: var(--secondary); color: white; }
         .btn-success { background: var(--success); color: white; }
         .btn-warning { background: var(--warning); color: #000; }
         .btn-danger { background: var(--danger); color: white; }
         .btn-info { background: #17a2b8; color: white; }
-        .btn-light { background: white; color: var(--text); border: 1px solid var(--border); }
-        .btn-dark { background: var(--primary); color: white; }
-        .btn-sm { padding: 5px 10px; font-size: 11px; }
-        .btn-lg { padding: 12px 25px; font-size: 15px; }
 
-        /* ========== MAIN LAYOUT ========== */
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 10px 15px;
-        }
-
-        /* ========== NAVIGATION TABS ========== */
-        .tabs-container {
+        /* Tabs for sheets */
+        .tabs-bar {
             background: white;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
-
-        .tabs-scroll {
+            padding: 5px 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             display: flex;
             overflow-x: auto;
-            gap: 0;
+            gap: 3px;
+            margin: 10px 15px;
+            border-radius: 10px;
         }
-
-        .tab-btn {
-            padding: 12px 15px;
+        .sheet-tab {
+            padding: 8px 15px;
+            background: #f0f0f0;
             border: none;
-            background: white;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
-            font-weight: 500;
             white-space: nowrap;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            transition: 0.2s;
             font-family: inherit;
-            color: #666;
         }
-
-        .tab-btn:hover {
-            background: var(--light);
-            color: var(--secondary);
-        }
-
-        .tab-btn.active {
-            color: var(--secondary);
-            border-bottom-color: var(--secondary);
-            font-weight: bold;
-            background: #f0f8ff;
-        }
-
-        .tab-count {
+        .sheet-tab.active {
             background: var(--secondary);
             color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            margin-right: 5px;
         }
 
-        /* ========== CONTENT PANELS ========== */
-        .panel {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        /* Main container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px 20px;
+        }
+
+        .sheet-panel {
             display: none;
         }
-
-        .panel.active {
+        .sheet-panel.active {
             display: block;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.3s;
         }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--border);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .panel-title {
-            font-size: 18px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .panel-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        /* ========== TABLES ========== */
         .table-wrapper {
             overflow-x: auto;
+            background: white;
             border-radius: 8px;
-            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            max-height: 70vh;
         }
 
         table {
-            width: 100%;
             border-collapse: collapse;
+            width: 100%;
             font-size: 12px;
+            table-layout: auto;
         }
-
+        td, th {
+            border: 1px solid #ddd;
+            padding: 4px 6px;
+            text-align: center;
+            vertical-align: middle;
+        }
         th {
             background: var(--primary);
             color: white;
-            padding: 8px 6px;
-            font-weight: 600;
-            font-size: 11px;
-            white-space: nowrap;
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 5;
         }
-
-        td {
-            padding: 6px;
-            border: 1px solid var(--border);
-            vertical-align: middle;
-        }
-
-        tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-
-        tr:hover {
-            background: #e8f0fe;
-        }
-
-        td input, td select {
+        td input, td textarea {
             width: 100%;
-            min-width: 50px;
-            padding: 4px 6px;
+            min-width: 60px;
+            padding: 5px;
             border: 1px solid transparent;
             border-radius: 4px;
+            font-family: inherit;
             font-size: 11px;
             text-align: center;
-            font-family: inherit;
             background: transparent;
-            transition: all 0.2s;
+            transition: 0.2s;
         }
-
-        td input:hover, td select:hover {
-            border-color: #ccc;
-        }
-
-        td input:focus, td select:focus {
+        td input:hover, td textarea:hover { border-color: #bbb; }
+        td input:focus, td textarea:focus {
             outline: none;
             border-color: var(--secondary);
             background: white;
             box-shadow: 0 0 0 2px rgba(46,134,193,0.1);
         }
+        td input[type="number"] { text-align: center; }
 
-        /* ========== GRADES & RESULTS ========== */
-        .grade-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 11px;
-        }
-
-        .grade-الف { background: #d4efdf; color: #1e8449; }
-        .grade-ب { background: #d6eaf8; color: #2471a3; }
-        .grade-ج { background: #fdebd0; color: #b9770e; }
-        .grade-د { background: #fadbd8; color: #c0392b; }
-        .grade-هـ { background: #f5b7b1; color: #922b21; }
-
-        .result-pass { color: #27ae60; font-weight: bold; }
-        .result-fail { color: #e74c3c; font-weight: bold; }
-        .result-conditional { color: #f39c12; font-weight: bold; }
-        .result-absent { color: #95a5a6; font-weight: bold; }
-
-        /* ========== STATS CARDS ========== */
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            border-right: 4px solid var(--secondary);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .stat-value {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #777;
-            margin-top: 3px;
-        }
-
-        /* ========== UPLOAD ZONE ========== */
-        .upload-zone {
-            border: 3px dashed #ccc;
-            border-radius: 15px;
-            padding: 50px 20px;
+        /* Loading / empty state */
+        .empty-state {
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #fafafa;
+            padding: 50px;
+            color: #888;
         }
-
-        .upload-zone:hover, .upload-zone.dragover {
-            border-color: var(--secondary);
-            background: #f0f8ff;
-        }
-
-        .upload-zone .icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
-
-        /* ========== PROGRESS ========== */
-        .progress-bar {
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 15px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--secondary), var(--success));
-            width: 0%;
-            transition: width 0.3s;
-            border-radius: 4px;
-        }
-
-        /* ========== MODAL ========== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal-dialog {
-            background: white;
-            border-radius: 12px;
-            width: 95%;
-            max-width: 900px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 1;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .modal-footer {
-            padding: 15px 20px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            position: sticky;
-            bottom: 0;
-            background: white;
-        }
-
-        /* ========== NOTIFICATIONS ========== */
         .toast {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 8px;
             color: white;
-            font-weight: 600;
             z-index: 2000;
-            animation: slideInRight 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            font-weight: 600;
+            animation: slideIn 0.3s;
         }
-
         .toast-success { background: var(--success); }
         .toast-error { background: var(--danger); }
-        .toast-warning { background: var(--warning); color: #000; }
-        .toast-info { background: var(--secondary); }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+        @keyframes slideIn { from { transform: translateX(100%); opacity:0; } to { transform: translateX(0); opacity:1; } }
 
         @media print {
-            body { background: white; }
-            .header, .tabs-container, .panel-actions, .btn, 
-            .upload-zone, .modal-overlay, .header-actions {
-                display: none !important;
-            }
-            .panel { box-shadow: none; }
-            table { font-size: 10px; }
-        }
-
-        @media (max-width: 768px) {
-            .header-top { flex-direction: column; text-align: center; }
-            .school-title h1 { font-size: 18px; }
-            .tab-btn { padding: 10px 12px; font-size: 11px; }
-            .panel { padding: 12px; }
-            table { font-size: 10px; }
+            .header, .tabs-bar, .btn { display: none !important; }
+            .sheet-panel.active { display: block !important; }
+            .table-wrapper { max-height: none; }
         }
     </style>
 </head>
 <body>
-
-    <!-- ============================== -->
-    <!-- HEADER -->
-    <!-- ============================== -->
     <header class="header">
-        <div class="header-top">
-            <div class="ministry">
-                <h4>🇦🇫 وزارت معارف</h4>
-                <h4>ریاست معارف شهر کابل</h4>
-                <h4>آمریت معارف حوزه هشتم</h4>
-            </div>
-            
-            <div class="school-title">
-                <h1>🏫 لیسه عالی معرفت افغان</h1>
-                <span class="badge">خصوصی - نمبر ۱</span>
-                <br>
-                <small style="opacity:0.8;">مدیر: نورالرحمن حنیفی | ناظر: شمس احمدزی</small>
-            </div>
-            
-            <div style="text-align:center;">
-                <div class="year-badge">سال تعلیمی ۱۴۰۴</div>
-                <br>
-                <small>صنف: هفتم (با) | معلم: ساحل</small>
-            </div>
-            
-            <div class="header-actions">
-                <button class="btn btn-success btn-sm" onclick="window.app.loadExcelFromGitHub()">
-                    📥 لود از GitHub
-                </button>
-                <button class="btn btn-info btn-sm" onclick="document.getElementById('localExcelInput').click()">
-                    📁 لود از کمپیوتر
-                </button>
-                <input type="file" id="localExcelInput" accept=".xlsx,.xls" style="display:none" 
-                       onchange="window.app.loadLocalExcel(event)">
-                <button class="btn btn-warning btn-sm" onclick="window.app.saveToLocalStorage()">
-                    💾 ذخیره موقت
-                </button>
-                <button class="btn btn-success btn-sm" onclick="window.app.exportToExcel()">
-                    📥 دانلود اکسیل
-                </button>
-                <button class="btn btn-primary btn-sm" onclick="window.print()">
-                    🖨 پرنت
-                </button>
-            </div>
+        <h1>📚 لیسه عالی معرفت افغان | مدیریت شقه</h1>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">📁 باز کردن فایل</button>
+            <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none" onchange="window.app.loadLocalExcel(event)">
+            <button class="btn btn-success" id="btnLoadGitHub" onclick="window.app.loadFromGitHub()">📥 لود از GitHub</button>
+            <button class="btn btn-warning" onclick="window.app.saveWorkbook()">💾 دانلود اکسیل</button>
+            <button class="btn btn-info" onclick="window.print()">🖨 پرنت شیت فعال</button>
         </div>
     </header>
 
-    <!-- ============================== -->
-    <!-- NAVIGATION TABS -->
-    <!-- ============================== -->
-    <div class="main-container">
-        <div class="tabs-container">
-            <div class="tabs-scroll" id="tabsNav">
-                <button class="tab-btn active" data-panel="studentList">📋 لیست شاگردان</button>
-                <button class="tab-btn" data-panel="attendance">📅 حاضری</button>
-                <button class="tab-btn" data-panel="halfScores">📝 چهارونی</button>
-                <button class="tab-btn" data-panel="annualScores">📊 سالانه</button>
-                <button class="tab-btn" data-panel="totals">📈 مجموع</button>
-                <button class="tab-btn" data-panel="results">🏆 نتایج</button>
-                <button class="tab-btn" data-panel="sheets">📄 شقه</button>
-                <button class="tab-btn" data-panel="regulations">📜 ضوابط</button>
-                <button class="tab-btn" data-panel="summary45">📊 خلص ۴.۵</button>
-                <button class="tab-btn" data-panel="summaryAnnual">📉 خلص سالانه</button>
-                <button class="tab-btn" data-panel="notification">📢 اطلاع نامه</button>
-                <button class="tab-btn" data-panel="books">📚 کتاب</button>
-                <button class="tab-btn" data-panel="aiUpload">📸 AI شقه</button>
-            </div>
-        </div>
+    <div class="tabs-bar" id="sheetTabs"></div>
 
-        <!-- ============================== -->
-        <!-- ALL PANELS CONTAINER -->
-        <!-- ============================== -->
-        <div id="allPanels"></div>
-    </div>
-
-    <!-- ============================== -->
-    <!-- AI PROCESSING MODAL -->
-    <!-- ============================== -->
-    <div class="modal-overlay" id="aiModal">
-        <div class="modal-dialog">
-            <div class="modal-header">
-                <h3>🤖 پردازش با هوش مصنوعی</h3>
-                <button class="btn btn-danger btn-sm" onclick="document.getElementById('aiModal').classList.remove('show')">✖</button>
-            </div>
-            <div class="modal-body" id="aiModalBody"></div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="document.getElementById('aiModal').classList.remove('show')">بستن</button>
-                <button class="btn btn-success" id="aiSaveBtn">💾 ذخیره</button>
-            </div>
+    <div class="container" id="sheetsContainer">
+        <div class="empty-state">
+            <h2>📂 فایل اکسیل بارگذاری نشده است</h2>
+            <p>لطفاً فایل <strong>هفتم با .xlsx</strong> را بارگذاری کنید</p>
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">📁 انتخاب فایل</button>
         </div>
     </div>
 
-    <!-- ============================== -->
-    <!-- MAIN APP SCRIPT -->
-    <!-- ============================== -->
     <script>
-    // ============================================
-    // COMPLETE SCHOOL MANAGEMENT APP
-    // ============================================
-
-    class SchoolApp {
-        constructor() {
-            this.SCHOOL_INFO = {
-                ministry: "وزارت معارف",
-                department: "ریاست معارف شهر کابل", 
-                district: "آمریت معارف حوزه هشتم تعلیمی",
-                school: "لیسه عالی معرفت افغان",
-                schoolType: "خصوصی نمبر ۱",
-                className: "هفتم با",
-                grade: 7,
-                academicYearShamsi: 1404,
-                academicYearHijri: 1447,
-                supervisor: "شمس احمدزی",
-                principal: "نورالرحمن حنیفی",
-                headTeacher: "ساحل",
-                totalSchoolDays: 81,
-                totalAnnualDays: 109,
-                totalYearDays: 190,
-                absentThresholdDays: 48
-            };
-
-            this.SUBJECTS = [
-                { id: 1, name: "قرآنکریم", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 2, name: "دنیات", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 3, name: "دری", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 4, name: "پشتو", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 5, name: "تجوید", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 6, name: "عربي", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 7, name: "انگلیسي", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 8, name: "ریاضي", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 9, name: "فزیک", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 10, name: "کیمیا", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 11, name: "بیولوژي", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 12, name: "ساینس", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 13, name: "اجتماعیات", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 14, name: "جغرافیه", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 15, name: "مدني", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 16, name: "حسن خط", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 17, name: "حرفه", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 18, name: "مهارت زندگی", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 19, name: "تربیت بدنی", maxHalf: 40, maxAnnual: 60, maxTotal: 100 },
-                { id: 20, name: "تهذیب", maxHalf: 40, maxAnnual: 60, maxTotal: 100 }
-            ];
-
-            this.STUDENTS = [];
-            this.processedAIResults = [];
-            this.currentPanel = 'studentList';
-            
-            this.init();
-        }
-
-        // ============ INITIALIZATION ============
-        init() {
-            this.setupTabNavigation();
-            this.loadFromLocalStorage();
-            
-            // If no data loaded, try GitHub
-            if (this.STUDENTS.length === 0) {
-                this.loadExcelFromGitHub();
-            }
-            
-            // Always try auto-load from GitHub
-            setTimeout(() => {
-                if (this.STUDENTS.length === 0) {
-                    this.loadExcelFromGitHub();
-                }
-            }, 1000);
-            
-            this.renderCurrentPanel();
-            console.log('✅ School App Ready');
-        }
-
-        setupTabNavigation() {
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    this.currentPanel = btn.dataset.panel;
-                    this.renderCurrentPanel();
-                });
-            });
-        }
-
-        // ============ DATA LOADING ============
-        async loadExcelFromGitHub() {
-            try {
-                this.showToast('info', '📥 در حال لود فایل از GitHub...');
-                
-                const response = await fetch('./هفتم%20با%20.xlsx');
-                if (!response.ok) throw new Error('فایل یافت نشد');
-                
-                const arrayBuffer = await response.arrayBuffer();
-                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-                
-                this.parseExcelWorkbook(workbook);
-                this.saveToLocalStorage();
-                this.renderCurrentPanel();
-                
-                this.showToast('success', `✅ ${this.STUDENTS.length} شاگرد لود شد`);
-            } catch (error) {
-                console.log('GitHub load failed, using backup:', error.message);
-                this.loadBackupData();
-            }
-        }
-
-        loadLocalExcel(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            this.showToast('info', '📁 در حال خواندن فایل...');
-            
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const workbook = XLSX.read(e.target.result, { type: 'array' });
-                this.parseExcelWorkbook(workbook);
-                this.saveToLocalStorage();
-                this.renderCurrentPanel();
-                this.showToast('success', `✅ ${this.STUDENTS.length} شاگرد لود شد`);
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        parseExcelWorkbook(workbook) {
-            const sheetName = workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetName];
-            const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-            
-            if (data.length < 2) {
-                this.loadBackupData();
-                return;
+        class ExcelApp {
+            constructor() {
+                this.workbook = null;       // XLSX workbook object
+                this.sheetNames = [];
+                this.activeSheetName = '';
+                this.init();
             }
 
-            this.STUDENTS = [];
-            
-            // Find header row
-            let headerRow = data[0];
-            let startRow = 1;
-            
-            // Skip empty rows at top
-            for (let i = 0; i < Math.min(5, data.length); i++) {
-                if (data[i] && data[i].length > 3) {
-                    headerRow = data[i];
-                    startRow = i + 1;
-                    break;
-                }
-            }
-
-            // Parse students
-            for (let i = startRow; i < data.length; i++) {
-                const row = data[i];
-                if (!row || !row[1] || row[1] === '') continue;
-                
-                const student = {
-                    id: this.STUDENTS.length + 1,
-                    serial: parseInt(row[0]) || this.STUDENTS.length + 1,
-                    name: String(row[1] || '').trim(),
-                    fatherName: String(row[2] || '').trim(),
-                    grandfatherName: String(row[3] || '').trim(),
-                    studentId: parseInt(row[4]) || 0,
-                    halfScores: {},
-                    annualScores: {},
-                    attendance: { schoolDays: 81, present: 0, absent: 0, sick: 0, leave: 0 }
-                };
-
-                // Parse scores (starting from column 5)
-                this.SUBJECTS.forEach((subj, index) => {
-                    const col = 5 + index;
-                    if (row[col] !== undefined && row[col] !== '' && row[col] !== null) {
-                        student.halfScores[subj.id] = parseInt(row[col]) || null;
-                    } else {
-                        student.halfScores[subj.id] = null;
-                    }
-                });
-
-                this.STUDENTS.push(student);
-            }
-
-            console.log(`Parsed ${this.STUDENTS.length} students from Excel`);
-        }
-
-        loadBackupData() {
-            // Complete backup data with all 32 students
-            this.STUDENTS = [
-                { id:1, serial:1, name:"احسان الله", fatherName:"امان الله", grandfatherName:"صالح محمد", studentId:2145,
-                  halfScores:{1:16,2:16,3:16,4:16,5:null,6:30,7:16,8:16,9:24,10:17,11:36,12:null,13:16,14:16,15:null,16:null,17:40,18:null,19:40,20:40},
-                  annualScores:{}, attendance:{schoolDays:81, present:67, absent:14, sick:0, leave:0} },
-                { id:2, serial:2, name:"احمدالله", fatherName:"احمدشاه", grandfatherName:"اخترگل", studentId:2070,
-                  halfScores:{1:19,2:16,3:20,4:25,5:null,6:40,7:30,8:16,9:24,10:27,11:32,12:null,13:32,14:24,15:null,16:null,17:40,18:null,19:40,20:40},
-                  annualScores:{}, attendance:{schoolDays:81, present:79, absent:2, sick:0, leave:0} },
-                { id:3, serial:3, name:"اکبر", fatherName:"حلیم خان", grandfatherName:"حاجی حکیم خان", studentId:2068,
-                  halfScores:{1:16,2:20,3:16,4:16,5:null,6:24,7:18,8:16,9:16,10:10,11:24,12:null,13:18,14:20,15:null,16:null,17:28,18:null,19:40,20:40},
-                  annualScores:{}, attendance:{schoolDays:81, present:74, absent:7, sick:0, leave:0} },
-                { id:4, serial:4, name:"محب الله", fatherName:"حاجی شریف", grandfatherName:"شایسته گل", studentId:1555,
-                  halfScores:{1:29,2:20,3:16,4:19,5:null,6:24,7:24,8:24,9:20,10:28,11:32,12:null,13:34,14:16,15:null,16:null,17:36,18:null,19:40,20:40},
-                  annualScores:{}, attendance:{schoolDays:81, present:71, absent:10, sick:0, leave:0} },
-                { id:5, serial:5, name:"محمدریحان", fatherName:"احمدعابد", grandfatherName:"سعادت خان", studentId:1553,
-                  halfScores:{1:24,2:40,3:16,4:32,5:null,6:36,7:34,8:16,9:32,10:34,11:20,12:null,13:20,14:16,15:null,16:null,17:40,18:null,19:40,20:40},
-                  annualScores:{}, attendance:{schoolDays:81, present:77, absent:4, sick:0, leave:0} },
-                { id:6, serial:6, name:"محمدزبیر", fatherName:"نیت ولی", grandfatherName:"حاجی اسلام گل", studentId:1116,
-                  halfScores:{1:40,2:40,3:29,4:40,5:null,6:40,7:30,8:35,9:40,10:40,11:38,12:null,13:40,14:32,15:null,16:null,17:40,18:null,19:40,20:40},
-                  annualScores:{}, attendance:{schoolDays:81, present:80, absent:1, sick:0, leave:0} }
-            ];
-            
-            // Add remaining absent students
-            const absentNames = [
-                { id:21, name:"الیاس الدین", fatherName:"حیات الدین", studentId:1504 },
-                { id:22, name:"ذبیح الله", fatherName:"صاحب جان", studentId:1886 },
-                { id:23, name:"رحیم الله", fatherName:"حبیب الله", studentId:1058 }
-            ];
-            
-            absentNames.forEach(s => {
-                this.STUDENTS.push({
-                    id: s.id, serial: s.id, name: s.name, fatherName: s.fatherName,
-                    grandfatherName: "", studentId: s.studentId,
-                    halfScores: {}, annualScores: {},
-                    attendance: { schoolDays:81, present:0, absent:81, sick:0, leave:0 }
-                });
-            });
-            
-            this.showToast('warning', '⚠️ فایل Excel یافت نشد - دیتای نمونه لود شد');
-        }
-
-        // ============ STORAGE ============
-        saveToLocalStorage() {
-            try {
-                localStorage.setItem('schoolData', JSON.stringify({
-                    schoolInfo: this.SCHOOL_INFO,
-                    students: this.STUDENTS,
-                    subjects: this.SUBJECTS,
-                    timestamp: new Date().toISOString()
-                }));
-                this.showToast('success', '💾 دیتا ذخیره شد');
-            } catch (e) {
-                console.error('Storage full:', e);
-            }
-        }
-
-        loadFromLocalStorage() {
-            try {
-                const saved = localStorage.getItem('schoolData');
+            init() {
+                // Try to load saved workbook from localStorage
+                const saved = localStorage.getItem('excelWorkbook');
                 if (saved) {
-                    const data = JSON.parse(saved);
-                    if (data.students && data.students.length > 0) {
-                        this.STUDENTS = data.students;
-                        if (data.schoolInfo) this.SCHOOL_INFO = { ...this.SCHOOL_INFO, ...data.schoolInfo };
-                        return true;
-                    }
+                    try {
+                        const wb = XLSX.read(saved, { type: 'base64' });
+                        this.loadWorkbook(wb);
+                    } catch (e) { console.warn('Failed to load saved workbook'); }
                 }
-            } catch (e) {
-                console.error('Load error:', e);
-            }
-            return false;
-        }
-
-        // ============ EXPORT ============
-        exportToExcel() {
-            try {
-                const wb = XLSX.utils.book_new();
-                
-                // Create data array
-                const headers = ['شماره', 'نام', 'نام پدر', 'نام پدرکلان', 'آی دی'];
-                this.SUBJECTS.forEach(s => headers.push(s.name));
-                
-                const rows = [headers];
-                this.STUDENTS.forEach(s => {
-                    const row = [s.serial, s.name, s.fatherName, s.grandfatherName, s.studentId];
-                    this.SUBJECTS.forEach(subj => {
-                        row.push(s.halfScores[subj.id] !== undefined ? s.halfScores[subj.id] : '');
-                    });
-                    rows.push(row);
-                });
-                
-                const ws = XLSX.utils.aoa_to_sheet(rows);
-                XLSX.utils.book_append_sheet(wb, ws, 'هفتم با');
-                
-                XLSX.writeFile(wb, `هفتم_با_${new Date().toISOString().slice(0,10)}.xlsx`);
-                this.showToast('success', '📥 فایل اکسیل دانلود شد');
-            } catch (e) {
-                this.showToast('error', 'خطا در اکسپورت: ' + e.message);
-            }
-        }
-
-        // ============ RENDERING ============
-        renderCurrentPanel() {
-            const container = document.getElementById('allPanels');
-            
-            switch(this.currentPanel) {
-                case 'studentList': container.innerHTML = this.renderStudentList(); break;
-                case 'attendance': container.innerHTML = this.renderAttendance(); break;
-                case 'halfScores': container.innerHTML = this.renderHalfScores(); break;
-                case 'annualScores': container.innerHTML = this.renderAnnualScores(); break;
-                case 'totals': container.innerHTML = this.renderTotals(); break;
-                case 'results': container.innerHTML = this.renderResults(); break;
-                case 'sheets': container.innerHTML = this.renderSheets(); break;
-                case 'regulations': container.innerHTML = this.renderRegulations(); break;
-                case 'summary45': container.innerHTML = this.renderSummary45(); break;
-                case 'summaryAnnual': container.innerHTML = this.renderSummaryAnnual(); break;
-                case 'notification': container.innerHTML = this.renderNotification(); break;
-                case 'books': container.innerHTML = this.renderBooks(); break;
-                case 'aiUpload': container.innerHTML = this.renderAIUpload(); break;
-                default: container.innerHTML = this.renderStudentList();
-            }
-            
-            // Setup panel-specific events
-            setTimeout(() => this.setupPanelEvents(), 100);
-        }
-
-        renderStudentList() {
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📋 لیست شاگردان صنف هفتم (با)</div>
-                    <div class="panel-actions">
-                        <button class="btn btn-primary btn-sm" onclick="window.app.addStudent()">➕ شاگرد جدید</button>
-                    </div>
-                </div>
-                
-                <div class="stats-row">
-                    <div class="stat-card">
-                        <div class="stat-value">${this.STUDENTS.length}</div>
-                        <div class="stat-label">مجموع شاگردان</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">${this.STUDENTS.filter(s => this.hasScores(s)).length}</div>
-                        <div class="stat-label">شامل امتحان</div>
-                    </div>
-                </div>
-                
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>شماره</th>
-                                <th>نام</th>
-                                <th>نام پدر</th>
-                                <th>نام پدرکلان</th>
-                                <th>آی دی</th>
-                                <th>حضور</th>
-                                <th>عملیات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${this.STUDENTS.map(s => `
-                            <tr>
-                                <td><input type="number" value="${s.serial}" onchange="window.app.updateStudent(${s.id},'serial',this.value)" style="width:60px"></td>
-                                <td><input type="text" value="${s.name}" onchange="window.app.updateStudent(${s.id},'name',this.value)"></td>
-                                <td><input type="text" value="${s.fatherName}" onchange="window.app.updateStudent(${s.id},'fatherName',this.value)"></td>
-                                <td><input type="text" value="${s.grandfatherName||''}" onchange="window.app.updateStudent(${s.id},'grandfatherName',this.value)"></td>
-                                <td><input type="number" value="${s.studentId}" onchange="window.app.updateStudent(${s.id},'studentId',this.value)" style="width:80px"></td>
-                                <td>${s.attendance.present}/${s.attendance.schoolDays}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-danger" onclick="window.app.deleteStudent(${s.id})">🗑</button>
-                                </td>
-                            </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>`;
-        }
-
-        renderAttendance() {
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📅 فهرست حاضری</div>
-                    <div class="panel-actions">
-                        <button class="btn btn-primary btn-sm" onclick="window.app.markAllPresent()">✅ همه حاضر</button>
-                    </div>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>شماره</th>
-                                <th>نام</th>
-                                <th>روزهای مکتب</th>
-                                <th>حاضر</th>
-                                <th>غیرحاضر</th>
-                                <th>مریض</th>
-                                <th>رخصتی</th>
-                                <th>فیصدی</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${this.STUDENTS.map(s => {
-                                const percent = s.attendance.schoolDays > 0 ? 
-                                    ((s.attendance.present/s.attendance.schoolDays)*100).toFixed(1) : 0;
-                                return `
-                            <tr>
-                                <td>${s.serial}</td>
-                                <td>${s.name}</td>
-                                <td><input type="number" value="${s.attendance.schoolDays}" onchange="window.app.updateAttendance(${s.id},'schoolDays',this.value)" style="width:60px"></td>
-                                <td><input type="number" value="${s.attendance.present}" onchange="window.app.updateAttendance(${s.id},'present',this.value)" style="width:60px"></td>
-                                <td><input type="number" value="${s.attendance.absent}" onchange="window.app.updateAttendance(${s.id},'absent',this.value)" style="width:60px"></td>
-                                <td>${s.attendance.sick}</td>
-                                <td>${s.attendance.leave}</td>
-                                <td><strong>${percent}%</strong></td>
-                            </tr>`;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>`;
-        }
-
-        renderHalfScores() {
-            return this.renderScoreTable('halfScores', 'چهارونی', 40);
-        }
-
-        renderAnnualScores() {
-            return this.renderScoreTable('annualScores', 'سالانه', 60);
-        }
-
-        renderScoreTable(scoreType, title, maxScore) {
-            const subjects = this.SUBJECTS.filter(s => s.id <= 15); // First 15 subjects
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📝 نمرات ${title}</div>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>شماره</th>
-                                <th>نام</th>
-                                ${subjects.map(s => `<th>${s.name}<br><small>/${maxScore}</small></th>`).join('')}
-                                <th>مجموع</th>
-                                <th>معدل</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${this.STUDENTS.filter(s => this.hasScores(s)).map(s => {
-                                const scores = s[scoreType] || {};
-                                let total = 0, count = 0;
-                                subjects.forEach(subj => {
-                                    if (scores[subj.id]) { total += scores[subj.id]; count++; }
-                                });
-                                const avg = count > 0 ? (total/count).toFixed(2) : '-';
-                                return `
-                            <tr>
-                                <td>${s.serial}</td>
-                                <td>${s.name}</td>
-                                ${subjects.map(subj => `
-                                <td>
-                                    <input type="number" min="0" max="${maxScore}" 
-                                           value="${scores[subj.id] !== null && scores[subj.id] !== undefined ? scores[subj.id] : ''}"
-                                           onchange="window.app.updateScore(${s.id},${subj.id},'${scoreType}',this.value)"
-                                           style="width:50px">
-                                </td>`).join('')}
-                                <td><strong>${total}</strong></td>
-                                <td><strong>${avg}</strong></td>
-                            </tr>`;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>`;
-        }
-
-        renderTotals() {
-            const subjects = this.SUBJECTS.filter(s => s.id <= 15);
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📈 مجموع نمرات (چهارونی + سالانه)</div>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>شماره</th><th>نام</th>${subjects.map(s=>`<th>${s.name}</th>`).join('')}<th>مجموع کل</th><th>معدل کل</th></tr></thead>
-                        <tbody>
-                            ${this.STUDENTS.filter(s=>this.hasScores(s)).map(s=>{
-                                let total=0, count=0;
-                                subjects.forEach(subj=>{
-                                    const half = (s.halfScores||{})[subj.id]||0;
-                                    const annual = (s.annualScores||{})[subj.id]||0;
-                                    if(half||annual){total+=half+annual;count++;}
-                                });
-                                return `<tr><td>${s.serial}</td><td>${s.name}</td>
-                                ${subjects.map(subj=>{
-                                    const half=(s.halfScores||{})[subj.id]||0;
-                                    const annual=(s.annualScores||{})[subj.id]||0;
-                                    return `<td>${half+annual||'-'}</td>`;
-                                }).join('')}
-                                <td><strong>${total}</strong></td><td><strong>${count>0?(total/count).toFixed(2):'-'}</strong></td></tr>`;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>`;
-        }
-
-        renderResults() {
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">🏆 ورق نتایج</div>
-                </div>
-                <div class="stats-row">
-                    <div class="stat-card">
-                        <div class="stat-value">${this.getResultStats().pass}</div>
-                        <div class="stat-label">کامیاب</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">${this.getResultStats().conditional}</div>
-                        <div class="stat-label">مشروط</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">${this.getResultStats().fail}</div>
-                        <div class="stat-label">ناکام</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">${this.getResultStats().absent}</div>
-                        <div class="stat-label">غایب</div>
-                    </div>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>شماره</th><th>نام</th><th>معدل ۴.۵</th><th>درجه</th><th>نتیجه</th></tr></thead>
-                        <tbody>
-                            ${this.STUDENTS.map(s=>{
-                                const avg=this.calculateAverage(s,'halfScores');
-                                const grade=this.calculateGrade(avg);
-                                const result=this.getResult(avg,s);
-                                return `<tr>
-                                    <td>${s.serial}</td><td>${s.name}</td>
-                                    <td>${avg.toFixed(2)}</td>
-                                    <td><span class="grade-badge grade-${grade}">${grade}</span></td>
-                                    <td><span class="result-${result.class}">${result.text}</span></td>
-                                </tr>`;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>`;
-        }
-
-        renderSheets() {
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📄 شقه های امتحانی</div>
-                    <div class="panel-actions">
-                        <button class="btn btn-primary btn-sm" onclick="window.print()">🖨 پرنت همه</button>
-                    </div>
-                </div>
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:15px;">
-                    ${this.STUDENTS.filter(s=>this.hasScores(s)).slice(0,10).map(s=>{
-                        const avg=this.calculateAverage(s,'halfScores');
-                        return `
-                    <div style="border:1px solid #ddd;border-radius:8px;padding:15px;">
-                        <h4>شقه ${s.serial} - ${s.name} ${s.fatherName}</h4>
-                        <table style="font-size:11px;">
-                            ${this.SUBJECTS.filter(sub=>sub.id<=15 && s.halfScores[sub.id]!=null).map(sub=>`
-                            <tr><td>${sub.name}</td><td>${s.halfScores[sub.id]}/${sub.maxHalf}</td></tr>
-                            `).join('')}
-                            <tr style="font-weight:bold;background:#f0f0f0;">
-                                <td>معدل</td><td>${avg.toFixed(2)}</td>
-                            </tr>
-                        </table>
-                        <button class="btn btn-sm btn-primary" style="margin-top:10px;" onclick="window.app.printSingleSheet(${s.id})">🖨 پرنت</button>
-                    </div>`;
-                    }).join('')}
-                </div>
-            </div>`;
-        }
-
-        renderRegulations() {
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📜 ضوابط شقه</div>
-                </div>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:15px;">
-                    <div style="background:#f8f9fa;padding:20px;border-radius:8px;">
-                        <h3>📋 معلومات عمومی</h3>
-                        <p>📅 ایام چهارونیم ماه: <strong>${this.SCHOOL_INFO.totalSchoolDays}</strong> روز</p>
-                        <p>📅 ایام سالانه: <strong>${this.SCHOOL_INFO.totalAnnualDays}</strong> روز</p>
-                        <p>📅 مجموع ایام سال: <strong>${this.SCHOOL_INFO.totalYearDays}</strong> روز</p>
-                        <p>⚠️ ایام محرومی: <strong>${this.SCHOOL_INFO.absentThresholdDays}</strong> روز</p>
-                    </div>
-                    <div style="background:#f8f9fa;padding:20px;border-radius:8px;">
-                        <h3>📊 درجه بندی</h3>
-                        <table>
-                            <tr><th>درجه</th><th>از</th><th>تا</th></tr>
-                            <tr class="grade-الف"><td>الف</td><td>۳۶</td><td>۴۰</td></tr>
-                            <tr class="grade-ب"><td>ب</td><td>۳۰</td><td>۳۵.۹۹</td></tr>
-                            <tr class="grade-ج"><td>ج</td><td>۲۴</td><td>۲۹.۹۹</td></tr>
-                            <tr class="grade-د"><td>د</td><td>۲۰</td><td>۲۳.۹۹</td></tr>
-                            <tr class="grade-هـ"><td>هـ</td><td>۰</td><td>۱۹.۹۹</td></tr>
-                        </table>
-                    </div>
-                </div>
-            </div>`;
-        }
-
-        renderSummary45() {
-            const subjects = this.SUBJECTS.filter(s => s.id <= 15);
-            const activeStudents = this.STUDENTS.filter(s => this.hasScores(s));
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📊 خلص احصائیه چهارونیم ماه</div>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>مضمون</th><th>اعلی نمره</th><th>ادنی نمره</th><th>معدل</th></tr></thead>
-                        <tbody>
-                            ${subjects.map(subj=>{
-                                const scores=activeStudents.map(s=>s.halfScores[subj.id]).filter(v=>v!=null);
-                                const max=scores.length?Math.max(...scores):0;
-                                const min=scores.length?Math.min(...scores):0;
-                                const avg=scores.length?(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(2):0;
-                                return `<tr><td>${subj.name}</td><td>${max}</td><td>${min}</td><td>${avg}</td></tr>`;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>`;
-        }
-
-        renderSummaryAnnual() {
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📉 خلص احصائیه سالانه</div>
-                </div>
-                <p style="text-align:center;padding:50px;color:#999;">بعد از وارد کردن نمرات سالانه، این بخش تکمیل میشود</p>
-            </div>`;
-        }
-
-        renderNotification() {
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📢 اطلاع نامه</div>
-                    <div class="panel-actions">
-                        <button class="btn btn-primary btn-sm" onclick="window.print()">🖨 پرنت</button>
-                    </div>
-                </div>
-                <div style="max-width:600px;margin:0 auto;border:2px solid #1a3c5e;border-radius:12px;padding:30px;">
-                    <h2 style="text-align:center;">اطلاع نامه</h2>
-                    <p style="text-align:center;">${this.SCHOOL_INFO.school}</p>
-                    <p>به اطلاع اولیای محترم شاگردان صنف ${this.SCHOOL_INFO.className} میرساند:</p>
-                    <p>نتایج امتحانات چهارونیم ماه سال تعلیمی ${this.SCHOOL_INFO.academicYearShamsi} اعلام گردید.</p>
-                    <div style="background:#f8f9fa;padding:15px;border-radius:8px;margin:15px 0;">
-                        <p>مجموع شاگردان: ${this.STUDENTS.length}</p>
-                        <p>کامیاب: ${this.getResultStats().pass}</p>
-                        <p>تلاش بیشتر: ${this.getResultStats().conditional}</p>
-                    </div>
-                    <div style="text-align:left;margin-top:20px;border-top:1px solid #ddd;padding-top:15px;">
-                        <p>مدیر: ${this.SCHOOL_INFO.principal}</p>
-                        <p>ناظر: ${this.SCHOOL_INFO.supervisor}</p>
-                        <p>معلم: ${this.SCHOOL_INFO.headTeacher}</p>
-                    </div>
-                </div>
-            </div>`;
-        }
-
-        renderBooks() {
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📚 توزیع کتاب</div>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>شماره</th><th>نام کتاب</th><th>تعداد شاگردان</th><th>موجود</th><th>کمبود</th></tr></thead>
-                        <tbody>
-                            ${this.SUBJECTS.filter(s=>s.id<=20).map((s,i)=>`
-                            <tr><td>${i+1}</td><td>${s.name}</td><td>${this.STUDENTS.length}</td>
-                            <td><input type="number" value="${this.STUDENTS.length}" style="width:70px"></td>
-                            <td>0</td></tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>`;
-        }
-
-        renderAIUpload() {
-            return `
-            <div class="panel active">
-                <div class="panel-header">
-                    <div class="panel-title">📸 اپلود عکس شقه با AI</div>
-                </div>
-                <div class="upload-zone" id="aiUploadZone" onclick="document.getElementById('aiFileInput').click()">
-                    <div class="icon">📸</div>
-                    <h3>عکس شقه را اینجا بکشید یا کلیک کنید</h3>
-                    <p>AI نمرات را از عکس تشخیص میدهد و شما میتوانید اصلاح کنید</p>
-                    <input type="file" id="aiFileInput" accept="image/*" multiple style="display:none">
-                </div>
-                <div id="aiProgress" style="display:none;text-align:center;padding:30px;">
-                    <h3>⚙️ در حال پردازش...</h3>
-                    <div class="progress-bar"><div class="progress-fill" id="aiProgressFill"></div></div>
-                    <p id="aiProgressText"></p>
-                </div>
-                <div id="aiResults" style="display:none;"></div>
-            </div>`;
-        }
-
-        setupPanelEvents() {
-            if (this.currentPanel === 'aiUpload') {
-                const zone = document.getElementById('aiUploadZone');
-                const input = document.getElementById('aiFileInput');
-                
-                if (zone) {
-                    zone.addEventListener('dragover', (e) => {
-                        e.preventDefault();
-                        zone.classList.add('dragover');
-                    });
-                    zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
-                    zone.addEventListener('drop', (e) => {
-                        e.preventDefault();
-                        zone.classList.remove('dragover');
-                        const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-                        if (files.length) this.processAIImages(files);
-                    });
-                }
-                
-                if (input) {
-                    input.addEventListener('change', (e) => {
-                        if (e.target.files.length) this.processAIImages(Array.from(e.target.files));
-                    });
+                // Auto-load from GitHub if nothing loaded
+                if (!this.workbook) {
+                    setTimeout(() => this.loadFromGitHub(), 500);
                 }
             }
-        }
 
-        // ============ AI PROCESSING ============
-        async processAIImages(files) {
-            document.getElementById('aiUploadZone').style.display = 'none';
-            document.getElementById('aiProgress').style.display = 'block';
-            
-            this.processedAIResults = [];
-            
-            for (let i = 0; i < files.length; i++) {
-                const progress = ((i + 1) / files.length) * 100;
-                document.getElementById('aiProgressFill').style.width = progress + '%';
-                document.getElementById('aiProgressText').textContent = `پردازش ${i + 1} از ${files.length}...`;
-                
+            // ===================== LOADING =====================
+            async loadFromGitHub() {
                 try {
-                    const result = await this.processImageWithAI(files[i]);
-                    this.processedAIResults.push(result);
+                    this.showToast('info', 'در حال بارگیری از GitHub...');
+                    const response = await fetch('./هفتم%20با%20.xlsx');
+                    if (!response.ok) throw new Error('فایل یافت نشد');
+                    const arrayBuffer = await response.arrayBuffer();
+                    const wb = XLSX.read(arrayBuffer, { type: 'array' });
+                    this.loadWorkbook(wb);
+                    this.showToast('success', '✅ فایل با موفقیت بارگذاری شد');
                 } catch (e) {
-                    console.error('AI Error:', e);
-                    this.processedAIResults.push({
-                        fileName: files[i].name,
-                        error: e.message,
-                        scores: {},
-                        confidence: 0
-                    });
+                    this.showToast('error', '⚠️ خطا: ' + e.message);
                 }
             }
-            
-            document.getElementById('aiProgress').style.display = 'none';
-            this.showAIResults();
-        }
 
-        async processImageWithAI(file) {
-            try {
-                // Try Tesseract OCR
-                const worker = await Tesseract.createWorker('fas+ara');
-                const { data } = await worker.recognize(file);
-                await worker.terminate();
-                
-                // Parse the recognized text
-                const parsed = this.parseRecognizedText(data.text);
-                
-                return {
-                    fileName: file.name,
-                    text: data.text,
-                    studentName: parsed.name || '',
-                    scores: parsed.scores || {},
-                    confidence: data.confidence / 100
+            loadLocalExcel(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const wb = XLSX.read(e.target.result, { type: 'array' });
+                    this.loadWorkbook(wb);
+                    this.showToast('success', '✅ فایل بارگذاری شد');
                 };
-            } catch (e) {
-                // Fallback: return empty data for manual entry
-                return {
-                    fileName: file.name,
-                    text: '',
-                    studentName: '',
-                    scores: {},
-                    confidence: 0
-                };
+                reader.readAsArrayBuffer(file);
             }
-        }
 
-        parseRecognizedText(text) {
-            const result = { name: '', scores: {} };
-            
-            // Try to find student name
-            const nameMatch = text.match(/(?:نام|اسم)[\s:]*([^\n]+)/);
-            if (nameMatch) result.name = nameMatch[1].trim();
-            
-            // Try to find scores (number patterns)
-            const scorePattern = /(\d+)\s*[\s\/]\s*(\d+)/g;
-            let match;
-            let subjectIndex = 1;
-            while ((match = scorePattern.exec(text)) !== null && subjectIndex <= 20) {
-                result.scores[subjectIndex] = parseInt(match[1]);
-                subjectIndex++;
+            loadWorkbook(wb) {
+                this.workbook = wb;
+                this.sheetNames = wb.SheetNames;
+                // Default to first sheet
+                this.activeSheetName = this.sheetNames[0] || '';
+                this.renderSheetTabs();
+                this.renderAllSheets();
+                // Save to localStorage for persistence
+                try {
+                    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+                    localStorage.setItem('excelWorkbook', wbout);
+                } catch(e) {}
             }
-            
-            return result;
-        }
 
-        showAIResults() {
-            const container = document.getElementById('aiResults');
-            container.style.display = 'block';
-            
-            container.innerHTML = `
-                <h3 style="margin-top:20px;">✅ نتایج پردازش (${this.processedAIResults.length} فایل)</h3>
-                ${this.processedAIResults.map((r, i) => `
-                <div style="border:1px solid #ddd;border-radius:8px;padding:15px;margin:10px 0;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <div>
-                            <strong>📄 ${r.fileName}</strong>
-                            ${r.confidence > 0 ? `<br><small>دقت AI: ${(r.confidence * 100).toFixed(0)}%</small>` : '<br><small>⛔ تشخیص ناموفق - لطفاً دستی وارد کنید</small>'}
-                        </div>
-                        <div>
-                            <button class="btn btn-sm btn-primary" onclick="window.app.editAIResult(${i})">✏️ ویرایش</button>
-                            <button class="btn btn-sm btn-success" onclick="window.app.saveAIResult(${i})">💾 ذخیره</button>
-                        </div>
-                    </div>
-                    ${Object.keys(r.scores).length > 0 ? `
-                    <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:5px;">
-                        ${Object.entries(r.scores).map(([subj, score]) => {
-                            const subject = this.SUBJECTS.find(s => s.id === parseInt(subj));
-                            return `<span style="background:#f0f0f0;padding:5px 10px;border-radius:5px;font-size:11px;">${subject?.name||subj}: ${score}</span>`;
-                        }).join('')}
-                    </div>` : '<p style="color:#999;">نمره ای تشخیص نشد</p>'}
-                </div>
-                `).join('')}
-                <button class="btn btn-success btn-lg" style="margin-top:15px;width:100%;" onclick="window.app.saveAllAIResults()">💾 ذخیره همه در دیتابیس</button>
-            `;
-        }
+            // ===================== RENDERING =====================
+            renderSheetTabs() {
+                const tabsContainer = document.getElementById('sheetTabs');
+                tabsContainer.innerHTML = this.sheetNames.map(name => `
+                    <button class="sheet-tab ${name === this.activeSheetName ? 'active' : ''}" 
+                            onclick="window.app.switchSheet('${name}')">
+                        ${name}
+                    </button>
+                `).join('');
+            }
 
-        editAIResult(index) {
-            const result = this.processedAIResults[index];
-            if (!result) return;
-            
-            const modal = document.getElementById('aiModal');
-            const body = document.getElementById('aiModalBody');
-            
-            body.innerHTML = `
-                <h4>ویرایش نتیجه: ${result.fileName}</h4>
-                <div style="margin:15px 0;">
-                    <label>نام شاگرد:</label>
-                    <input type="text" id="aiEditName" value="${result.studentName||''}" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:5px;">
-                </div>
-                <h4>نمرات تشخیص شده (اصلاح کنید):</h4>
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;">
-                    ${this.SUBJECTS.slice(0,15).map(subj => `
-                    <div>
-                        <label>${subj.name}:</label>
-                        <input type="number" min="0" max="${subj.maxHalf}" 
-                               value="${result.scores[subj.id]||''}"
-                               data-subject="${subj.id}"
-                               class="ai-score-input"
-                               style="width:100%;padding:8px;border:1px solid #ddd;border-radius:5px;">
-                    </div>
-                    `).join('')}
-                </div>
-            `;
-            
-            modal.classList.add('show');
-            
-            document.getElementById('aiSaveBtn').onclick = () => {
-                result.studentName = document.getElementById('aiEditName').value;
-                document.querySelectorAll('.ai-score-input').forEach(input => {
-                    const subjId = parseInt(input.dataset.subject);
-                    const val = input.value.trim();
-                    result.scores[subjId] = val ? parseInt(val) : null;
+            switchSheet(name) {
+                this.activeSheetName = name;
+                document.querySelectorAll('.sheet-tab').forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`.sheet-tab[onclick="window.app.switchSheet('${name}')"]`).classList.add('active');
+                document.querySelectorAll('.sheet-panel').forEach(p => p.classList.remove('active'));
+                document.getElementById(`sheet-${this.sanitizeId(name)}`).classList.add('active');
+            }
+
+            renderAllSheets() {
+                const container = document.getElementById('sheetsContainer');
+                container.innerHTML = '';
+                if (this.sheetNames.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><h2>هیچ شیټی موجود نیست</h2></div>';
+                    return;
+                }
+                this.sheetNames.forEach(name => {
+                    const panel = document.createElement('div');
+                    panel.className = `sheet-panel ${name === this.activeSheetName ? 'active' : ''}`;
+                    panel.id = `sheet-${this.sanitizeId(name)}`;
+                    panel.innerHTML = this.renderSheetTable(name);
+                    container.appendChild(panel);
                 });
-                result.confidence = 1; // Mark as manually verified
-                modal.classList.remove('show');
-                this.showAIResults();
-                this.showToast('success', '✅ اصلاحات ذخیره شد');
-            };
-        }
-
-        saveAIResult(index) {
-            const result = this.processedAIResults[index];
-            if (!result) return;
-            
-            // Find matching student or create new
-            let student = this.STUDENTS.find(s => 
-                result.studentName && s.name.includes(result.studentName)
-            );
-            
-            if (!student) {
-                student = {
-                    id: this.STUDENTS.length + 1,
-                    serial: this.STUDENTS.length + 1,
-                    name: result.studentName || 'ناشناس',
-                    fatherName: '',
-                    grandfatherName: '',
-                    studentId: 0,
-                    halfScores: {},
-                    annualScores: {},
-                    attendance: { schoolDays: 81, present: 0, absent: 0, sick: 0, leave: 0 }
-                };
-                this.STUDENTS.push(student);
             }
-            
-            // Merge scores
-            student.halfScores = { ...student.halfScores, ...result.scores };
-            
-            this.processedAIResults.splice(index, 1);
-            this.showAIResults();
-            this.saveToLocalStorage();
-            this.showToast('success', '💾 شقه ذخیره شد');
-        }
 
-        saveAllAIResults() {
-            while (this.processedAIResults.length > 0) {
-                this.saveAIResult(0);
+            renderSheetTable(sheetName) {
+                const sheet = this.workbook.Sheets[sheetName];
+                if (!sheet) return '<p>شیټ خالي دی</p>';
+
+                // Convert sheet to array of arrays (with all cells)
+                const data = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', blankrows: false });
+                if (data.length === 0) return '<p>شیټ خالي دی</p>';
+
+                // Determine max columns
+                const maxCols = Math.max(...data.map(row => row.length));
+                
+                let html = '<div class="table-wrapper"><table><tbody>';
+                data.forEach((row, rowIdx) => {
+                    html += '<tr>';
+                    for (let c = 0; c < maxCols; c++) {
+                        const cellValue = row[c] !== undefined ? row[c] : '';
+                        const cellRef = XLSX.utils.encode_cell({ r: rowIdx, c: c });
+                        // Check if this cell has a formula or style in original sheet (we can't preserve all, but basic)
+                        html += `<td><input type="text" 
+                                      data-sheet="${sheetName}" 
+                                      data-cell="${cellRef}" 
+                                      value="${this.escapeHtml(String(cellValue))}" 
+                                      onchange="window.app.updateCell(this)" 
+                                      onfocus="this.select()"></td>`;
+                    }
+                    html += '</tr>';
+                });
+                html += '</tbody></table></div>';
+                return html;
             }
-            this.showToast('success', '✅ همه شقه ها ذخیره شدند');
-        }
 
-        // ============ HELPERS ============
-        hasScores(student) {
-            return student.halfScores && Object.values(student.halfScores).some(v => v !== null && v !== undefined);
-        }
+            updateCell(input) {
+                const sheetName = input.dataset.sheet;
+                const cellRef = input.dataset.cell;
+                const value = input.value;
+                if (!this.workbook || !sheetName || !cellRef) return;
 
-        calculateAverage(student, scoreType) {
-            const scores = Object.values(student[scoreType] || {}).filter(v => v !== null && v !== undefined);
-            return scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
-        }
+                const sheet = this.workbook.Sheets[sheetName];
+                if (!sheet) return;
 
-        calculateGrade(average) {
-            if (average >= 36) return 'الف';
-            if (average >= 30) return 'ب';
-            if (average >= 24) return 'ج';
-            if (average >= 20) return 'د';
-            return 'هـ';
-        }
-
-        getResult(average, student) {
-            if (!this.hasScores(student)) return { text: 'غایب', class: 'absent' };
-            if (average >= 20) return { text: 'کامیاب', class: 'pass' };
-            if (average >= 16) return { text: 'مشروط', class: 'conditional' };
-            return { text: 'ناکام', class: 'fail' };
-        }
-
-        getResultStats() {
-            let pass = 0, conditional = 0, fail = 0, absent = 0;
-            this.STUDENTS.forEach(s => {
-                if (!this.hasScores(s)) absent++;
-                else {
-                    const avg = this.calculateAverage(s, 'halfScores');
-                    if (avg >= 20) pass++;
-                    else if (avg >= 16) conditional++;
-                    else fail++;
+                // Decode cell reference
+                const addr = XLSX.utils.decode_cell(cellRef);
+                // Update the cell value (preserve type if possible)
+                if (!isNaN(value) && value.trim() !== '') {
+                    sheet[cellRef] = { t: 'n', v: parseFloat(value) };
+                } else {
+                    sheet[cellRef] = { t: 's', v: value };
                 }
-            });
-            return { pass, conditional, fail, absent };
-        }
+                // Update the cell reference in the sheet (needed if previously empty)
+                sheet['!ref'] = XLSX.utils.encode_range(sheet['!ref'] ? XLSX.utils.decode_range(sheet['!ref']) : { s: { r: 0, c: 0 }, e: { r: 0, c: 0 } });
 
-        // ============ STUDENT OPERATIONS ============
-        updateStudent(id, field, value) {
-            const student = this.STUDENTS.find(s => s.id === id);
-            if (student) {
-                student[field] = field === 'serial' || field === 'studentId' ? parseInt(value) || 0 : value;
-                this.saveToLocalStorage();
+                // Save workbook to localStorage after edit
+                this.saveToStorage();
+            }
+
+            saveToStorage() {
+                try {
+                    const wbout = XLSX.write(this.workbook, { bookType: 'xlsx', type: 'base64' });
+                    localStorage.setItem('excelWorkbook', wbout);
+                } catch(e) {}
+            }
+
+            saveWorkbook() {
+                if (!this.workbook) {
+                    this.showToast('error', 'هیچ ورکبوکی بار نشده');
+                    return;
+                }
+                XLSX.writeFile(this.workbook, 'هفتم_با_ویرایش.xlsx');
+                this.showToast('success', '📥 فایل اکسیل ذخیره شد');
+            }
+
+            // Utility
+            sanitizeId(name) {
+                return name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, '_');
+            }
+            escapeHtml(text) {
+                return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+            showToast(type, msg) {
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.textContent = msg;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
             }
         }
 
-        updateAttendance(id, field, value) {
-            const student = this.STUDENTS.find(s => s.id === id);
-            if (student && student.attendance) {
-                student.attendance[field] = parseInt(value) || 0;
-                this.saveToLocalStorage();
-            }
-        }
-
-        updateScore(studentId, subjectId, scoreType, value) {
-            const student = this.STUDENTS.find(s => s.id === studentId);
-            if (student) {
-                if (!student[scoreType]) student[scoreType] = {};
-                student[scoreType][subjectId] = value === '' || value === null ? null : parseInt(value);
-            }
-        }
-
-        addStudent() {
-            const newStudent = {
-                id: this.STUDENTS.length + 1,
-                serial: this.STUDENTS.length + 1,
-                name: 'شاگرد جدید',
-                fatherName: '',
-                grandfatherName: '',
-                studentId: 0,
-                halfScores: {},
-                annualScores: {},
-                attendance: { schoolDays: 81, present: 0, absent: 0, sick: 0, leave: 0 }
-            };
-            this.STUDENTS.push(newStudent);
-            this.renderCurrentPanel();
-            this.showToast('success', '➕ شاگرد جدید اضافه شد');
-        }
-
-        deleteStudent(id) {
-            if (confirm('آیا مطمئن هستید؟')) {
-                this.STUDENTS = this.STUDENTS.filter(s => s.id !== id);
-                this.saveToLocalStorage();
-                this.renderCurrentPanel();
-                this.showToast('success', '🗑 شاگرد حذف شد');
-            }
-        }
-
-        markAllPresent() {
-            this.STUDENTS.forEach(s => {
-                if (s.attendance) s.attendance.present = s.attendance.schoolDays;
-            });
-            this.renderCurrentPanel();
-            this.showToast('success', '✅ همه حاضر شدند');
-        }
-
-        printSingleSheet(id) {
-            const student = this.STUDENTS.find(s => s.id === id);
-            if (!student) return;
-            
-            const printWindow = window.open('', '_blank', 'width=800,height=600');
-            printWindow.document.write(`
-                <html dir="rtl"><head><title>شقه ${student.name}</title>
-                <style>body{font-family:Tahoma;padding:20px;}table{width:100%;border-collapse:collapse;}td,th{border:1px solid black;padding:5px;text-align:center;}</style>
-                </head><body>
-                <h2>شقه امتحانی</h2>
-                <p>نام: ${student.name} ${student.fatherName}</p>
-                <p>صنف: ${this.SCHOOL_INFO.className}</p>
-                <table>
-                ${this.SUBJECTS.filter(s=>student.halfScores[s.id]!=null).map(s=>`
-                    <tr><td>${s.name}</td><td>${student.halfScores[s.id]}/${s.maxHalf}</td></tr>
-                `).join('')}
-                </table>
-                </body></html>
-            `);
-            printWindow.document.close();
-            setTimeout(() => printWindow.print(), 500);
-        }
-
-        // ============ TOAST ============
-        showToast(type, message) {
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.3s';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-        window.app = new SchoolApp();
-    });
+        window.app = new ExcelApp();
     </script>
 </body>
 </html>
