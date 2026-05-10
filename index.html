@@ -4,180 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مدیریت شقه - لیسه عالی معرفت افغان</title>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         :root {
             --primary: #1a3c5e;
             --secondary: #2e86c1;
             --success: #27ae60;
-            --warning: #f39c12;
             --danger: #e74c3c;
-            --light: #f8f9fa;
-            --border: #dee2e6;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Tahoma', 'Segoe UI', Arial, sans-serif;
-            background: #ecf0f1;
-            color: #2c3e50;
-            direction: rtl;
-        }
-
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #0d1b2a, #1a3c5e);
-            color: white;
-            padding: 10px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        body { font-family: 'Tahoma', 'Segoe UI', sans-serif; background: #ecf0f1; color: #2c3e50; direction: rtl; }
+        .header { background: linear-gradient(135deg, #0d1b2a, #1a3c5e); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .header h1 { font-size: 20px; }
-        .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-        .btn {
-            padding: 7px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
+        .btn { padding: 7px 15px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; }
         .btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
         .btn-primary { background: var(--secondary); color: white; }
         .btn-success { background: var(--success); color: white; }
-        .btn-warning { background: var(--warning); color: #000; }
         .btn-danger { background: var(--danger); color: white; }
-        .btn-info { background: #17a2b8; color: white; }
-
-        /* Tabs for sheets */
-        .tabs-bar {
-            background: white;
-            padding: 5px 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex;
-            overflow-x: auto;
-            gap: 3px;
-            margin: 10px 15px;
-            border-radius: 10px;
-        }
-        .sheet-tab {
-            padding: 8px 15px;
-            background: #f0f0f0;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            white-space: nowrap;
-            transition: 0.2s;
-            font-family: inherit;
-        }
-        .sheet-tab.active {
-            background: var(--secondary);
-            color: white;
-        }
-
-        /* Main container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 15px 20px;
-        }
-
-        .sheet-panel {
-            display: none;
-        }
-        .sheet-panel.active {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
+        .tabs-bar { background: white; padding: 5px 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; overflow-x: auto; gap: 3px; margin: 10px 15px; border-radius: 10px; }
+        .sheet-tab { padding: 8px 15px; background: #f0f0f0; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; white-space: nowrap; transition: 0.2s; font-family: inherit; }
+        .sheet-tab.active { background: var(--secondary); color: white; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 15px 20px; }
+        .sheet-panel { display: none; }
+        .sheet-panel.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .table-wrapper {
-            overflow-x: auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            max-height: 70vh;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            font-size: 12px;
-            table-layout: auto;
-        }
-        td, th {
-            border: 1px solid #ddd;
-            padding: 4px 6px;
-            text-align: center;
-            vertical-align: middle;
-        }
-        th {
-            background: var(--primary);
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 5;
-        }
-        td input, td textarea {
-            width: 100%;
-            min-width: 60px;
-            padding: 5px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            font-family: inherit;
-            font-size: 11px;
-            text-align: center;
-            background: transparent;
-            transition: 0.2s;
-        }
-        td input:hover, td textarea:hover { border-color: #bbb; }
-        td input:focus, td textarea:focus {
-            outline: none;
-            border-color: var(--secondary);
-            background: white;
-            box-shadow: 0 0 0 2px rgba(46,134,193,0.1);
-        }
-        td input[type="number"] { text-align: center; }
-
-        /* Loading / empty state */
-        .empty-state {
-            text-align: center;
-            padding: 50px;
-            color: #888;
-        }
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            border-radius: 8px;
-            color: white;
-            z-index: 2000;
-            font-weight: 600;
-            animation: slideIn 0.3s;
-        }
+        .table-wrapper { overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); max-height: 70vh; }
+        table { border-collapse: collapse; width: 100%; font-size: 12px; }
+        td, th { border: 1px solid #ddd; padding: 4px 6px; text-align: center; vertical-align: middle; }
+        th { background: var(--primary); color: white; position: sticky; top: 0; z-index: 5; }
+        td input { width: 100%; min-width: 60px; padding: 5px; border: 1px solid transparent; border-radius: 4px; font-family: inherit; font-size: 11px; text-align: center; background: transparent; transition: 0.2s; }
+        td input:focus { outline: none; border-color: var(--secondary); background: white; box-shadow: 0 0 0 2px rgba(46,134,193,0.1); }
+        .empty-state { text-align: center; padding: 50px; color: #888; }
+        .toast { position: fixed; top: 20px; right: 20px; padding: 10px 20px; border-radius: 8px; color: white; z-index: 2000; font-weight: 600; animation: slideIn 0.3s; }
         .toast-success { background: var(--success); }
         .toast-error { background: var(--danger); }
         @keyframes slideIn { from { transform: translateX(100%); opacity:0; } to { transform: translateX(0); opacity:1; } }
-
-        @media print {
-            .header, .tabs-bar, .btn { display: none !important; }
-            .sheet-panel.active { display: block !important; }
-            .table-wrapper { max-height: none; }
-        }
+        @media print { .header, .tabs-bar, .btn { display: none !important; } .sheet-panel.active { display: block !important; } }
     </style>
 </head>
 <body>
@@ -188,7 +50,7 @@
             <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none" onchange="window.app.loadLocalExcel(event)">
             <button class="btn btn-success" id="btnLoadGitHub" onclick="window.app.loadFromGitHub()">📥 لود از GitHub</button>
             <button class="btn btn-warning" onclick="window.app.saveWorkbook()">💾 دانلود اکسیل</button>
-            <button class="btn btn-info" onclick="window.print()">🖨 پرنت شیت فعال</button>
+            <button class="btn btn-info" onclick="window.print()">🖨 پرنت</button>
         </div>
     </header>
 
@@ -197,7 +59,10 @@
     <div class="container" id="sheetsContainer">
         <div class="empty-state">
             <h2>📂 فایل اکسیل بارگذاری نشده است</h2>
-            <p>لطفاً فایل <strong>هفتم با .xlsx</strong> را بارگذاری کنید</p>
+            <p>لطفاً یکی از روش‌های زیر را امتحان کنید:</p>
+            <button class="btn btn-success" onclick="window.app.loadFromGitHub()">🔄 تلاش مجدد از GitHub</button>
+            <br><br>
+            <p>یا فایل <strong>هفتم با .xlsx</strong> را از کامپیوتر خود انتخاب کنید:</p>
             <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">📁 انتخاب فایل</button>
         </div>
     </div>
@@ -205,39 +70,49 @@
     <script>
         class ExcelApp {
             constructor() {
-                this.workbook = null;       // XLSX workbook object
+                this.workbook = null;
                 this.sheetNames = [];
                 this.activeSheetName = '';
                 this.init();
             }
 
             init() {
-                // Try to load saved workbook from localStorage
+                // Try saved workbook first
                 const saved = localStorage.getItem('excelWorkbook');
                 if (saved) {
                     try {
                         const wb = XLSX.read(saved, { type: 'base64' });
                         this.loadWorkbook(wb);
-                    } catch (e) { console.warn('Failed to load saved workbook'); }
+                        return;
+                    } catch(e) {}
                 }
-                // Auto-load from GitHub if nothing loaded
-                if (!this.workbook) {
-                    setTimeout(() => this.loadFromGitHub(), 500);
-                }
+                // Auto-load from GitHub on start
+                setTimeout(() => this.loadFromGitHub(), 300);
             }
 
-            // ===================== LOADING =====================
             async loadFromGitHub() {
-                try {
-                    this.showToast('info', 'در حال بارگیری از GitHub...');
-                    const response = await fetch('./هفتم%20با%20.xlsx');
-                    if (!response.ok) throw new Error('فایل یافت نشد');
-                    const arrayBuffer = await response.arrayBuffer();
-                    const wb = XLSX.read(arrayBuffer, { type: 'array' });
-                    this.loadWorkbook(wb);
-                    this.showToast('success', '✅ فایل با موفقیت بارگذاری شد');
-                } catch (e) {
-                    this.showToast('error', '⚠️ خطا: ' + e.message);
+                const urls = [
+                    './هفتم%20با%20.xlsx',                                    // relative
+                    'https://ahmadzaibilal115-lab.github.io/My-School-/هفتم%20با%20.xlsx', // full raw
+                ];
+                let loaded = false;
+                for (const url of urls) {
+                    try {
+                        this.showToast('info', `تلاش بارگیری از ${url}...`);
+                        const response = await fetch(url);
+                        if (!response.ok) continue;
+                        const arrayBuffer = await response.arrayBuffer();
+                        const wb = XLSX.read(arrayBuffer, { type: 'array' });
+                        this.loadWorkbook(wb);
+                        this.showToast('success', '✅ فایل با موفقیت بارگذاری شد');
+                        loaded = true;
+                        break;
+                    } catch(e) {
+                        console.warn(`Fetch failed for ${url}:`, e.message);
+                    }
+                }
+                if (!loaded) {
+                    this.showToast('error', '❌ نتوانست فایل را از GitHub بارگیری کند. لطفاً فایل را دستی آپلود کنید.');
                 }
             }
 
@@ -248,7 +123,7 @@
                 reader.onload = (e) => {
                     const wb = XLSX.read(e.target.result, { type: 'array' });
                     this.loadWorkbook(wb);
-                    this.showToast('success', '✅ فایل بارگذاری شد');
+                    this.showToast('success', '✅ فایل محلی بارگذاری شد');
                 };
                 reader.readAsArrayBuffer(file);
             }
@@ -256,18 +131,16 @@
             loadWorkbook(wb) {
                 this.workbook = wb;
                 this.sheetNames = wb.SheetNames;
-                // Default to first sheet
                 this.activeSheetName = this.sheetNames[0] || '';
                 this.renderSheetTabs();
                 this.renderAllSheets();
-                // Save to localStorage for persistence
+                // Save to localStorage
                 try {
                     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
                     localStorage.setItem('excelWorkbook', wbout);
                 } catch(e) {}
             }
 
-            // ===================== RENDERING =====================
             renderSheetTabs() {
                 const tabsContainer = document.getElementById('sheetTabs');
                 tabsContainer.innerHTML = this.sheetNames.map(name => `
@@ -281,9 +154,10 @@
             switchSheet(name) {
                 this.activeSheetName = name;
                 document.querySelectorAll('.sheet-tab').forEach(btn => btn.classList.remove('active'));
-                document.querySelector(`.sheet-tab[onclick="window.app.switchSheet('${name}')"]`).classList.add('active');
                 document.querySelectorAll('.sheet-panel').forEach(p => p.classList.remove('active'));
                 document.getElementById(`sheet-${this.sanitizeId(name)}`).classList.add('active');
+                const activeTab = [...document.querySelectorAll('.sheet-tab')].find(b => b.textContent.trim() === name);
+                if(activeTab) activeTab.classList.add('active');
             }
 
             renderAllSheets() {
@@ -305,21 +179,15 @@
             renderSheetTable(sheetName) {
                 const sheet = this.workbook.Sheets[sheetName];
                 if (!sheet) return '<p>شیټ خالي دی</p>';
-
-                // Convert sheet to array of arrays (with all cells)
                 const data = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', blankrows: false });
                 if (data.length === 0) return '<p>شیټ خالي دی</p>';
-
-                // Determine max columns
                 const maxCols = Math.max(...data.map(row => row.length));
-                
                 let html = '<div class="table-wrapper"><table><tbody>';
                 data.forEach((row, rowIdx) => {
                     html += '<tr>';
                     for (let c = 0; c < maxCols; c++) {
                         const cellValue = row[c] !== undefined ? row[c] : '';
                         const cellRef = XLSX.utils.encode_cell({ r: rowIdx, c: c });
-                        // Check if this cell has a formula or style in original sheet (we can't preserve all, but basic)
                         html += `<td><input type="text" 
                                       data-sheet="${sheetName}" 
                                       data-cell="${cellRef}" 
@@ -338,22 +206,13 @@
                 const cellRef = input.dataset.cell;
                 const value = input.value;
                 if (!this.workbook || !sheetName || !cellRef) return;
-
                 const sheet = this.workbook.Sheets[sheetName];
                 if (!sheet) return;
-
-                // Decode cell reference
-                const addr = XLSX.utils.decode_cell(cellRef);
-                // Update the cell value (preserve type if possible)
                 if (!isNaN(value) && value.trim() !== '') {
                     sheet[cellRef] = { t: 'n', v: parseFloat(value) };
                 } else {
                     sheet[cellRef] = { t: 's', v: value };
                 }
-                // Update the cell reference in the sheet (needed if previously empty)
-                sheet['!ref'] = XLSX.utils.encode_range(sheet['!ref'] ? XLSX.utils.decode_range(sheet['!ref']) : { s: { r: 0, c: 0 }, e: { r: 0, c: 0 } });
-
-                // Save workbook to localStorage after edit
                 this.saveToStorage();
             }
 
@@ -373,7 +232,6 @@
                 this.showToast('success', '📥 فایل اکسیل ذخیره شد');
             }
 
-            // Utility
             sanitizeId(name) {
                 return name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, '_');
             }
